@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lunar Curse — Campaign Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #fafaf8;
+  --bg2:     #ffffff;
+  --bg3:     #f4f3ef;
+  --bg4:     #eeede8;
+  --border:  rgba(0,0,0,0.08);
+  --border2: rgba(0,0,0,0.14);
+  --text:    #1a1916;
+  --text2:   #6b6860;
+  --text3:   #a8a59e;
+  --accent:  #b8601a;
+  --accent2: rgba(184,96,26,0.07);
+  --eu:      #1a5fa8;
+  --eu-soft: rgba(26,95,168,0.07);
+  --us:      #1a7a52;
+  --us-soft: rgba(26,122,82,0.07);
+  --red:     #b02a2a;
+  --red-soft:rgba(176,42,42,0.07);
+  --warn:    #9a6010;
+  --warn-soft:rgba(154,96,16,0.08);
+  --good:    #1a6e3c;
+  --good-soft:rgba(26,110,60,0.07);
+  --font:    'Inter', sans-serif;
+  --mono:    'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ── LAYOUT ── */
+.layout { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+aside {
+  width: 196px;
+  flex-shrink: 0;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+.brand {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.brand-title {
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--accent);
+}
+.brand-sub {
+  font-family: var(--mono);
+  font-size: 9px; color: var(--text3);
+  margin-top: 2px; letter-spacing: 0.04em;
+}
+.brand-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--mono); font-size: 9px;
+  color: var(--accent); text-decoration: none;
+  margin-top: 7px; padding: 3px 7px;
+  background: var(--accent2); border-radius: 4px;
+  border: 1px solid rgba(184,96,26,0.18);
+  transition: background 0.1s;
+}
+.brand-link:hover { background: rgba(184,96,26,0.14); }
+.ext-link {
+  color: var(--eu); text-decoration: none;
+  border-bottom: 1px solid rgba(26,95,168,0.25);
+  transition: border-color 0.1s;
+}
+.ext-link:hover { border-color: var(--eu); }
+.nav-group { padding: 14px 0 6px; }
+.nav-label {
+  font-family: var(--mono);
+  font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text3);
+  padding: 0 16px 5px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 16px;
+  font-size: 12px; font-weight: 500;
+  color: var(--text2); cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all 0.1s; user-select: none;
+}
+.nav-item:hover { color: var(--text); background: var(--bg3); }
+.nav-item.active { color: var(--accent); border-left-color: var(--accent); background: var(--accent2); }
+.nav-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.5; flex-shrink: 0; }
+.nav-tag {
+  margin-left: auto; font-family: var(--mono);
+  font-size: 9px; padding: 1px 5px; border-radius: 3px;
+  background: var(--bg3); color: var(--text3);
+}
+.nav-footer {
+  margin-top: auto;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 9px; color: var(--text3);
+}
+
+/* ── MAIN ── */
+main { margin-left: 196px; flex: 1; min-width: 0; }
+
+.page { display: none; }
+.page.active { display: block; animation: fadeUp 0.18s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-left { display: flex; align-items: center; gap: 10px; }
+.page-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.page-sub { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+.pill {
+  font-family: var(--mono); font-size: 9px;
+  padding: 3px 9px; border-radius: 20px; letter-spacing: 0.04em;
+}
+.pill-live  { background: var(--good-soft); color: var(--good); border: 1px solid rgba(26,110,60,0.18); }
+.pill-val   { background: var(--warn-soft); color: var(--warn); border: 1px solid rgba(154,96,16,0.2); }
+.pill-info  { background: var(--eu-soft);   color: var(--eu);   border: 1px solid rgba(26,95,168,0.18); }
+
+/* ── CONTENT ── */
+.content { padding: 24px 28px 64px; }
+
+/* ── SECTION HEADER ── */
+.sec-eyebrow {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 3px;
+}
+.sec-title { font-size: 17px; font-weight: 700; color: var(--text); }
+.sec-desc  { font-size: 12px; color: var(--text2); margin-top: 3px; }
+
+/* ── DIVIDERS ── */
+hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+.subsec {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text3); margin: 20px 0 10px;
+}
+
+/* ── GRIDS ── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+
+/* ── STAT CARDS ── */
+.stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 13px 15px;
+}
+.stat-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 4px; }
+.stat-val   { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1.1; }
+.stat-sub   { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+/* ── GENERAL CARD ── */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 15px 17px;
+}
+.card-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+.card-body  { font-size: 12px; color: var(--text2); line-height: 1.65; }
+
+/* ── FULL PROSE CARD ── */
+.prose-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+.prose-card p { font-size: 12.5px; color: var(--text2); line-height: 1.75; }
+.prose-card p+p { margin-top: 8px; }
+
+/* ── PULL QUOTE ── */
+.pull {
+  border-left: 2px solid var(--accent);
+  padding: 8px 14px;
+  background: var(--accent2);
+  border-radius: 0 6px 6px 0;
+  font-size: 12px; font-style: italic;
+  color: var(--text2); margin: 14px 0; line-height: 1.6;
+}
+
+/* ── TAGS ── */
+.tag {
+  display: inline-block; font-family: var(--mono);
+  font-size: 9px; padding: 2px 7px; border-radius: 3px;
+  margin: 2px 2px 2px 0; letter-spacing: 0.03em;
+}
+.tag-eu     { background: var(--eu-soft);   color: var(--eu); }
+.tag-us     { background: var(--us-soft);   color: var(--us); }
+.tag-amber  { background: var(--accent2);   color: var(--accent); }
+.tag-red    { background: var(--red-soft);  color: var(--red); }
+.tag-muted  { background: var(--bg3);       color: var(--text3); }
+
+/* ── ARC STRIP ── */
+.arc-strip {
+  display: grid;
+  grid-template-columns: repeat(8,1fr);
+  gap: 6px; margin: 14px 0;
+}
+.arc-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 10px 9px;
+}
+.arc-eps  { font-family: var(--mono); font-size: 10px; font-weight: 500; color: var(--accent); margin-bottom: 4px; }
+.arc-name { font-size: 10px; font-weight: 600; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+.arc-blurb{ font-size: 10px; color: var(--text2); line-height: 1.5; }
+
+/* ── CHAR GRID ── */
+.char-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 10px; }
+.char-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 11px 13px;
+}
+.char-role { font-family: var(--mono); font-size: 9px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+.char-name { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.char-desc { font-size: 11px; color: var(--text2); line-height: 1.55; }
+
+/* ── TROPE MATRIX ── */
+.matrix-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin: 14px 0; }
+.mtable { width: 100%; border-collapse: collapse; min-width: 900px; }
+.mtable thead tr { background: var(--bg3); }
+.mtable thead th {
+  padding: 9px 8px;
+  font-family: var(--mono); font-size: 9px; font-weight: 500;
+  color: var(--text3); text-align: center;
+  border-right: 1px solid var(--border);
+  letter-spacing: 0.04em; white-space: nowrap;
+}
+.mtable thead th.tc { text-align: left; min-width: 168px; }
+.mtable thead th .asub { display: block; font-size: 8px; margin-top: 2px; opacity: 0.65; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 88px; }
+.mtable tbody td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  text-align: center; vertical-align: middle;
+}
+.mtable tbody td.tc { text-align: left; font-size: 11px; font-weight: 600; color: var(--text); }
+.mtable tbody td.tc span { display: block; font-size: 9px; font-weight: 400; color: var(--text3); margin-top: 1px; font-family: var(--mono); }
+.mtable tbody tr:last-child td { border-bottom: none; }
+.mtable tbody tr:hover td { background: var(--bg3); }
+.mtable .sec-row td {
+  background: var(--bg3); text-align: left;
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text3); padding: 5px 8px; border-right: none;
+}
+
+.mc { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 22px; border-radius: 3px; font-family: var(--mono); font-size: 10px; font-weight: 500; }
+.mc0 { background: var(--bg3);                      color: var(--text3); }
+.mc1 { background: rgba(26,95,168,0.07);             color: #3a70b0; }
+.mc2 { background: rgba(26,95,168,0.14);             color: #2d5e9a; }
+.mc3 { background: rgba(26,95,168,0.24);             color: #1e4d88; }
+.mc4 { background: rgba(26,95,168,0.42);             color: #16407a; }
+.mc5 { background: rgba(26,95,168,0.68);             color: #0d3060; }
+.dash { color: var(--text3); font-size: 13px; }
+
+.legend-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 8px 0 12px; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 9px; color: var(--text3); }
+.leg-sw { width: 22px; height: 11px; border-radius: 2px; }
+
+/* ── INSIGHT STRIP ── */
+.insight-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 14px; }
+.ibox {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 12px 14px;
+}
+.ibox-label { font-family: var(--mono); font-size: 9px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
+.ibox-body  { font-size: 11px; color: var(--text2); line-height: 1.6; }
+.ibox-body b { color: var(--text); font-weight: 600; }
+
+/* ── SCRIPTS ── */
+.script-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.script-panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden;
+}
+.script-head {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.sbadge { width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.sbadge-eu { background: var(--eu-soft); color: var(--eu); }
+.sbadge-us { background: var(--us-soft); color: var(--us); }
+.script-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.script-meta { font-family: var(--mono); font-size: 9px; color: var(--text3); margin-top: 2px; }
+.script-desc { padding: 10px 15px; border-bottom: 1px solid var(--border); font-size: 11.5px; color: var(--text2); line-height: 1.6; background: var(--bg3); }
+
+.ctable { width: 100%; border-collapse: collapse; font-size: 11px; }
+.ctable th { font-family: var(--mono); font-size: 9px; color: var(--text3); text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); letter-spacing: 0.04em; text-transform: uppercase; background: var(--bg3); }
+.ctable td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.ctable tr:last-child td { border-bottom: none; }
+.ctable tr:hover td { background: var(--bg3); }
+.t-name { font-size: 11px; font-weight: 600; color: var(--text); }
+.t-sub  { font-family: var(--mono); font-size: 9px; color: var(--text3); margin-top: 1px; }
+.vchip { display: inline-block; font-family: var(--mono); font-size: 9px; padding: 2px 6px; border-radius: 3px; font-weight: 500; }
+.vc-good { background: var(--good-soft); color: var(--good); }
+.vc-warn { background: var(--warn-soft); color: var(--warn); }
+.vc-bad  { background: var(--red-soft);  color: var(--red); }
+.vnote   { font-size: 11px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+
+/* ── CAMPAIGN ── */
+.cam-section {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.cam-section-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+}
+.cam-section-title { font-size: 12px; font-weight: 700; color: var(--text); }
+.cam-body { padding: 16px; }
+
+/* market blocks inside cam-body */
+.market-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.market-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden;
+}
+.market-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 13px;
+  border-bottom: 1px solid var(--border);
+}
+.market-title { font-size: 12px; font-weight: 700; }
+.mt-eu { color: var(--eu); }
+.mt-us { color: var(--us); }
+.kv-list { padding: 6px 0; }
+.kv-row {
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  padding: 5px 13px; gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.kv-row:last-child { border-bottom: none; }
+.kv-key { font-family: var(--mono); font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; padding-top: 1px; flex-shrink: 0; }
+.kv-val { font-size: 11px; color: var(--text); font-weight: 500; text-align: right; }
+.kv-val.muted { color: var(--text2); font-weight: 400; font-size: 10.5px; }
+
+/* inapp grid */
+.inapp-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+.inapp-item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 11px 13px;
+}
+.inapp-label { font-family: var(--mono); font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.inapp-val   { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.1; }
+.inapp-sub   { font-size: 10.5px; color: var(--text2); margin-top: 3px; }
+.inapp-status{ display: inline-block; font-family: var(--mono); font-size: 9px; padding: 2px 6px; border-radius: 3px; margin-top: 5px; }
+.is-none     { background: var(--red-soft); color: var(--red); }
+.is-progress { background: var(--warn-soft); color: var(--warn); }
+.is-live     { background: var(--good-soft); color: var(--good); }
+
+/* alert card */
+.alert-card {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--accent2);
+  border: 1px solid rgba(184,96,26,0.18);
+  border-radius: 6px; padding: 12px 14px; margin-top: 12px;
+}
+.alert-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 4px; flex-shrink: 0; }
+.alert-text { font-size: 11.5px; color: var(--text2); line-height: 1.6; }
+.alert-text b { color: var(--text); font-weight: 600; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside>
+  <div class="brand">
+    <div class="brand-title">Lunar Curse</div>
+    <div class="brand-sub">ID · 568056</div>
+    <a class="brand-link" href="https://cms.pocketfm.com/shows/audiobooks?tab=published&id=f123714ce8bfcb28cc12eec4d53a70453fe8e640" target="_blank" rel="noopener">↗ CMS</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Show</div>
+    <div class="nav-item active" onclick="nav('show',this)"><span class="nav-dot"></span>Overview</div>
+    <div class="nav-item" onclick="nav('tropes',this)"><span class="nav-dot"></span>Trope Matrix</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Scaling</div>
+    <div class="nav-item" onclick="nav('scripts',this)"><span class="nav-dot"></span>Scripts <span class="nav-tag">2</span></div>
+    <div class="nav-item" onclick="nav('campaign',this)"><span class="nav-dot"></span>Campaign</div>
+  </div>
+  <div class="nav-footer">Updated 4 Jun 2025</div>
+</aside>
+
+<!-- MAIN -->
+<main>
+
+<!-- ═══ SHOW OVERVIEW ═══ -->
+<div class="page active" id="page-show">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Show Overview</div>
+      <div class="page-sub">Basics · Characters · Arc structure</div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="g4" style="margin-bottom:14px;">
+      <div class="stat-card">
+        <div class="stat-label">Episodes</div>
+        <div class="stat-val">400</div>
+        <div class="stat-sub">8 story arcs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Length</div>
+        <div class="stat-val">81 hrs</div>
+        <div class="stat-sub">~15 min avg per ep</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Free Window</div>
+        <div class="stat-val">1.5 hrs</div>
+        <div class="stat-sub">Locks at Ep 12</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Tropes Mapped</div>
+        <div class="stat-val">10</div>
+        <div class="stat-sub">Across 8 arc buckets</div>
+      </div>
+    </div>
+
+    <div class="prose-card">
+      <p>Werewolf romance audio drama. Merida Cooper — wolfless, cursed, disowned — is claimed at the Lunar Ball by Alpha Darian Oaksmith, future Werewolf King. He married her for reasons he won't explain. She refuses to break. Over 400 episodes a forced marriage becomes devotion, a powerless girl becomes Queen, and a world full of enemies tries to stop it from happening.</p>
+      <p>The show doesn't stay in one gear. It opens in humiliation and victimhood, pivots at ep 50 into training and rivalry, deepens into slow burn intimacy from ep 100, explodes into political warfare at ep 200, and ends with war, coronation, and a fully transformed protagonist.</p>
+    </div>
+
+    <div class="pull">The core promise: she doesn't just survive — she becomes someone who goes to war for him.</div>
+
+    <div class="subsec">Key Characters</div>
+    <div class="char-grid">
+      <div class="char-card">
+        <div class="char-role">Protagonist</div>
+        <div class="char-name">Merida Cooper</div>
+        <div class="char-desc">Wolfless, scarred, disowned. Silver hair, violet eyes. Has Fae blood + dormant wolf (Valmora) hidden by the curse. Transforms from passive victim → warrior → Queen.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-role">Male Lead</div>
+        <div class="char-name">Darian Oaksmith</div>
+        <div class="char-desc">Future Werewolf King. Cold, feared, calculating. His wolf Rhovan knows Merida is their mate from ep 1. Darian spends ~100 eps denying it while protecting her anyway.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-role">Primary Rival — Eps 9–374</div>
+        <div class="char-name">Wendy Felton</div>
+        <div class="char-desc">Groomed since childhood to be Darian's Queen. Capable, dangerous, obsessive. The show's most sustained antagonist — drives conflict for 250+ consecutive episodes.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-role">Darian's Brother / Trainer</div>
+        <div class="char-name">Danny Oaksmith</div>
+        <div class="char-desc">Comic relief + Merida's combat trainer from ep 50. Becomes Alpha of Mystic Fury. Her found-family anchor. Mates with Hyacinth.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-role">Political Villain</div>
+        <div class="char-name">Reggie Felton</div>
+        <div class="char-desc">Council Elder. Architect of Wendy's obsession. Schemes against Merida for 200+ eps. Stripped of noble title and placed under house arrest on day 1 of Darian's reign.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-role">Darian's Inner Wolf</div>
+        <div class="char-name">Rhovan</div>
+        <div class="char-desc">"Mine. Protect her." Near-separate character. Recognises Merida from ep 1 and overrules Darian's cold logic for 100+ episodes. Key voice in the possessive alpha trope.</div>
+      </div>
+    </div>
+
+    <div class="subsec" style="margin-top:20px;">Story Arc Structure</div>
+    <div class="arc-strip">
+      <div class="arc-block">
+        <div class="arc-eps">Eps 1–50</div>
+        <div class="arc-name">Rejection + Forced Marriage</div>
+        <div class="arc-blurb">Lunar Ball, Marc's rejection, Darian's claim, chicken coop, forced wedding. Merida refuses I do. Hostile pack, no allies.</div>
+      </div>
+      <div class="arc-block">
+        <div class="arc-eps">Eps 51–100</div>
+        <div class="arc-name">Duskmoor + Training</div>
+        <div class="arc-blurb">Combat training with Danny. First signs of Valmora. Wendy's active scheming. Kidnap attempt. Darian defends Merida publicly.</div>
+      </div>
+      <div class="arc-block">
+        <div class="arc-eps">Eps 101–150</div>
+        <div class="arc-name">War + Wolf Awakens</div>
+        <div class="arc-blurb">Vampire attacks. Human lab killings. Valmora heard by Darian. Mate bond undeniable. Council confrontation. First physical closeness.</div>
+      </div>
+      <div class="arc-block">
+        <div class="arc-eps">Eps 151–200</div>
+        <div class="arc-name">Marking + Alliance</div>
+        <div class="arc-blurb">Merida marks Darian. Vampire alliance. Full-scale war. Political vindication at Council. Slow burn peaks.</div>
+      </div>
+      <div class="arc-block">
+        <div class="arc-eps">Eps 201–250</div>
+        <div class="arc-name">Stormveil + Fae Blood</div>
+        <div class="arc-blurb">Royal court politics. Randolf obstacle. Grandmother letters reveal Fae bloodline. Darian consults Merida. Peak intimacy.</div>
+      </div>
+      <div class="arc-block">
+        <div class="arc-eps">Eps 251–300</div>
+        <div class="arc-name">Power + Pregnancy</div>
+        <div class="arc-blurb">Reggie's most dangerous moves. Grandmother arrives. Twins pregnancy. Wendy turns violent. Coronation prep.</div>
+      </div>
+      <div class="arc-block">
+        <div class="arc-eps">Eps 301–350</div>
+        <div class="arc-name">Coronation + Purge</div>
+        <div class="arc-blurb">Crowned King + Queen. Council dismantled. Reggie stripped and arrested. Wendy destroyed. Family bows. Marc bows. Full vindication.</div>
+      </div>
+      <div class="arc-block">
+        <div class="arc-eps">Eps 351–400</div>
+        <div class="arc-name">Great War + Resolution</div>
+        <div class="arc-blurb">Border threat. Merida goes to war in Darian's place. Fae magic revealed. Great War. Twins born. All ends well.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ TROPE MATRIX ═══ -->
+<div class="page" id="page-tropes">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Trope Matrix</div>
+      <div class="page-sub">Top 10 tropes · 8 arc buckets (50 ep each)</div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="legend-row">
+      <span style="font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;">Intensity</span>
+      <div class="leg-item"><div class="leg-sw" style="background:var(--bg3);border:1px solid var(--border2);"></div>Absent</div>
+      <div class="leg-item"><div class="leg-sw" style="background:rgba(26,95,168,0.07);"></div>Low 10–20%</div>
+      <div class="leg-item"><div class="leg-sw" style="background:rgba(26,95,168,0.14);"></div>Mild 25–30%</div>
+      <div class="leg-item"><div class="leg-sw" style="background:rgba(26,95,168,0.24);"></div>Moderate 35–40%</div>
+      <div class="leg-item"><div class="leg-sw" style="background:rgba(26,95,168,0.42);"></div>High 45–50%</div>
+      <div class="leg-item"><div class="leg-sw" style="background:rgba(26,95,168,0.68);"></div>Peak 55–65%</div>
+    </div>
+
+    <div class="matrix-scroll">
+      <table class="mtable">
+        <thead>
+          <tr>
+            <th class="tc">Trope</th>
+            <th>1–50<span class="asub">Rejection + marriage</span></th>
+            <th>51–100<span class="asub">Duskmoor + training</span></th>
+            <th>101–150<span class="asub">War + wolf awakens</span></th>
+            <th>151–200<span class="asub">Marking + alliance</span></th>
+            <th>201–250<span class="asub">Stormveil + Fae</span></th>
+            <th>251–300<span class="asub">Power + pregnancy</span></th>
+            <th>301–350<span class="asub">Coronation + purge</span></th>
+            <th>351–400<span class="asub">Great War + end</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="sec-row"><td colspan="9">Romance</td></tr>
+          <tr>
+            <td class="tc">Forced Mate / Claimed Bride<span>Power-gap claiming, no consent</span></td>
+            <td><div class="mc mc5">55%</div></td><td><div class="mc mc4">45%</div></td><td><div class="mc mc2">30%</div></td><td><div class="mc mc3">40%</div></td><td><div class="mc mc1">20%</div></td><td><div class="mc mc1">15%</div></td><td><div class="mc mc0">10%</div></td><td><div class="mc mc0">5%</div></td>
+          </tr>
+          <tr>
+            <td class="tc">Enemies to Lovers<span>Cold distance → devotion</span></td>
+            <td><div class="mc mc2">30%</div></td><td><div class="mc mc3">40%</div></td><td><div class="mc mc4">45%</div></td><td><div class="mc mc5">55%</div></td><td><div class="mc mc5">55%</div></td><td><div class="mc mc3">40%</div></td><td><div class="mc mc2">30%</div></td><td><div class="mc mc1">25%</div></td>
+          </tr>
+          <tr>
+            <td class="tc">Slow Burn Intimacy<span>Charged tension, delayed closeness</span></td>
+            <td><div class="mc mc0">15%</div></td><td><div class="mc mc1">20%</div></td><td><div class="mc mc2">35%</div></td><td><div class="mc mc4">45%</div></td><td><div class="mc mc5">55%</div></td><td><div class="mc mc5">50%</div></td><td><div class="mc mc3">40%</div></td><td><div class="mc mc2">30%</div></td>
+          </tr>
+          <tr>
+            <td class="tc">Possessive Alpha<span>Jealousy, obsession, "she is mine"</span></td>
+            <td><div class="mc mc3">40%</div></td><td><div class="mc mc4">45%</div></td><td><div class="mc mc3">40%</div></td><td><div class="mc mc5">50%</div></td><td><div class="mc mc4">45%</div></td><td><div class="mc mc2">35%</div></td><td><div class="mc mc2">30%</div></td><td><div class="mc mc1">25%</div></td>
+          </tr>
+          <tr class="sec-row"><td colspan="9">Heroine Arc</td></tr>
+          <tr>
+            <td class="tc">Cursed / Powerless Underdog<span>Wolfless, scarred, rejected</span></td>
+            <td><div class="mc mc5">60%</div></td><td><div class="mc mc5">55%</div></td><td><div class="mc mc3">40%</div></td><td><div class="mc mc2">30%</div></td><td><div class="mc mc1">20%</div></td><td><div class="mc mc0">15%</div></td><td><div class="mc mc0">8%</div></td><td><div class="mc mc0">5%</div></td>
+          </tr>
+          <tr>
+            <td class="tc">Weak to Strong / Combat<span>Training arc → warrior → saves king</span></td>
+            <td><div class="dash">—</div></td><td><div class="mc mc1">20%</div></td><td><div class="mc mc3">40%</div></td><td><div class="mc mc2">35%</div></td><td><div class="mc mc1">20%</div></td><td><div class="mc mc1">15%</div></td><td><div class="mc mc2">30%</div></td><td><div class="mc mc4">45%</div></td>
+          </tr>
+          <tr>
+            <td class="tc">Hidden Power / Secret Bloodline<span>Fae blood, Valmora, wolf awakening</span></td>
+            <td><div class="mc mc0">5%</div></td><td><div class="mc mc0">10%</div></td><td><div class="mc mc1">25%</div></td><td><div class="mc mc2">35%</div></td><td><div class="mc mc4">45%</div></td><td><div class="mc mc5">55%</div></td><td><div class="mc mc4">45%</div></td><td><div class="mc mc5">60%</div></td>
+          </tr>
+          <tr>
+            <td class="tc">Cinderella / Rise to Queen<span>Outcast → Luna → crowned Queen</span></td>
+            <td><div class="mc mc0">10%</div></td><td><div class="mc mc0">15%</div></td><td><div class="mc mc1">20%</div></td><td><div class="mc mc2">30%</div></td><td><div class="mc mc2">35%</div></td><td><div class="mc mc4">45%</div></td><td><div class="mc mc5">60%</div></td><td><div class="mc mc5">55%</div></td>
+          </tr>
+          <tr class="sec-row"><td colspan="9">Conflict</td></tr>
+          <tr>
+            <td class="tc">Scheming Rival Woman<span>Wendy — 250-ep antagonist</span></td>
+            <td><div class="mc mc1">20%</div></td><td><div class="mc mc2">35%</div></td><td><div class="mc mc3">40%</div></td><td><div class="mc mc4">45%</div></td><td><div class="mc mc2">35%</div></td><td><div class="mc mc3">40%</div></td><td><div class="mc mc2">30%</div></td><td><div class="mc mc1">20%</div></td>
+          </tr>
+          <tr>
+            <td class="tc">Political Intrigue / Throne<span>Council, Elders, Reggie, coronation</span></td>
+            <td><div class="mc mc0">10%</div></td><td><div class="mc mc0">15%</div></td><td><div class="mc mc1">20%</div></td><td><div class="mc mc2">30%</div></td><td><div class="mc mc4">45%</div></td><td><div class="mc mc4">50%</div></td><td><div class="mc mc5">60%</div></td><td><div class="mc mc4">45%</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="insight-strip">
+      <div class="ibox">
+        <div class="ibox-label">Big pivot — ep 100</div>
+        <div class="ibox-body"><b>Underdog</b> peaks early and fades fast. After ep 100 the dominant register shifts to <b>Slow Burn + Political Intrigue</b>. Ads that only play arc 1 mis-sell the bulk of the show.</div>
+      </div>
+      <div class="ibox">
+        <div class="ibox-label">Structural spine</div>
+        <div class="ibox-body"><b>Cinderella / Rise to Queen</b> climbs ep 1 → ep 350 without dropping. It's the show's longest single promise. <b>Hidden Power</b> mirrors it — both are retention tropes, not acquisition.</div>
+      </div>
+      <div class="ibox">
+        <div class="ibox-label">Most underrated hook</div>
+        <div class="ibox-body"><b>Scheming Rival (Wendy)</b> holds 35–45% for 250+ consecutive episodes — the most sustained conflict engine after romance. Consistently underfunded in both current ads.</div>
+      </div>
+      <div class="ibox">
+        <div class="ibox-label">Missing from both scripts</div>
+        <div class="ibox-body"><b>Slow Burn Intimacy</b> and <b>Weak-to-Strong Combat</b> get zero coverage in either ad. These are the top two retention drivers for eps 100–400.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ SCRIPTS ═══ -->
+<div class="page" id="page-scripts">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Scripts</div>
+      <div class="page-sub">Why Me EU Variant (36 min) · Why Me US Writing (60 min) · Trope match vs show arc</div>
+    </div>
+    <div style="display:flex;gap:7px;">
+      <span class="pill pill-live">Both scaling — US</span>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="script-pair">
+
+      <!-- EU -->
+      <div class="script-panel">
+        <div class="script-head">
+          <div class="sbadge sbadge-eu">EU</div>
+          <div>
+            <div class="script-name">Why Me — EU Variant</div>
+            <div class="script-meta">36 min · Deeplink Ep 1 · Single POV · Production CPS adset · <a class="ext-link" href="https://docs.google.com/document/d/18Gel4f6M2BS7FLYgJQIa6ZWlqIxgt25a/edit" target="_blank" rel="noopener">Script ↗</a></div>
+          </div>
+        </div>
+        <div class="script-desc">Pure first-person Merida. One voice, one shame spiral. Hook = unresolved humiliation. Full AI motion promo live. No Wendy, no Rhovan, no political framing.</div>
+        <table class="ctable">
+          <thead><tr><th>Trope</th><th>Coverage</th><th>Show peak</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="t-name">Cursed Underdog</div><div class="t-sub">Wolfless, rejected, humiliated</div></td>
+              <td><span class="tag tag-eu">1–50 · 60%</span></td>
+              <td><span class="tag tag-eu">1–50</span></td>
+              <td><span class="vchip vc-good">Accurate</span><div class="vnote">Leads with actual peak.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Forced Mate</div><div class="t-sub">Darian's claim, car ride</div></td>
+              <td><span class="tag tag-eu">1–50 · 55%</span></td>
+              <td><span class="tag tag-eu">1–50</span></td>
+              <td><span class="vchip vc-good">Accurate</span><div class="vnote">Ends unresolved — effective hook.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Hidden Power Seed</div><div class="t-sub">Grandmother warning only</div></td>
+              <td><span class="tag tag-eu">Trace</span></td>
+              <td><span class="tag tag-muted">251–400</span></td>
+              <td><span class="vchip vc-good">Well seeded</span><div class="vnote">Correct depth — planted as mystery.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Possessive Alpha</div><div class="t-sub">Actions only, no interiority</div></td>
+              <td><span class="tag tag-eu">Behaviour only</span></td>
+              <td><span class="tag tag-eu">1–200</span></td>
+              <td><span class="vchip vc-warn">Under-sold</span><div class="vnote">No Rhovan. High for 200 eps, no emotional signal.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Scheming Rival (Wendy)</div><div class="t-sub">250-ep antagonist</div></td>
+              <td><span class="tag tag-red">Absent</span></td>
+              <td><span class="tag tag-eu">50–300</span></td>
+              <td><span class="vchip vc-bad">Major gap</span><div class="vnote">Zero signal for rivalry-driven listeners.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Slow Burn Intimacy</div><div class="t-sub">Peak eps 151–300</div></td>
+              <td><span class="tag tag-red">Absent</span></td>
+              <td><span class="tag tag-eu">151–300</span></td>
+              <td><span class="vchip vc-bad">Major gap</span><div class="vnote">Show's biggest mid-run engine. Invisible.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Weak to Strong / Combat</div><div class="t-sub">Danny training, warrior arc</div></td>
+              <td><span class="tag tag-red">Absent</span></td>
+              <td><span class="tag tag-eu">51–150, 301–400</span></td>
+              <td><span class="vchip vc-bad">Major gap</span><div class="vnote">No signal she becomes the one who saves him.</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- US -->
+      <div class="script-panel">
+        <div class="script-head">
+          <div class="sbadge sbadge-us">US</div>
+          <div>
+            <div class="script-name">Why Me — US Writing</div>
+            <div class="script-meta">60 min · Deeplink Ep 6 · Dual POV · Abhi Wadhwa CPS adset · <a class="ext-link" href="https://docs.google.com/document/d/1LG59x60uvLIRbyI1WfIz3BxkOA4Kccyz/edit" target="_blank" rel="noopener">Script ↗</a></div>
+          </div>
+        </div>
+        <div class="script-desc">Multi-POV — Merida + Darian (Rhovan) + 3rd person. Adds Wendy, Randolf, King Alderic, full altar scene. Hook = defiance cliffhanger ("No. I don't accept"). 1 min motion + Stills live.</div>
+        <table class="ctable">
+          <thead><tr><th>Trope</th><th>Coverage</th><th>Show peak</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="t-name">Cursed Underdog</div><div class="t-sub">Wolfless, rejected</div></td>
+              <td><span class="tag tag-us">1–50 · 60%</span></td>
+              <td><span class="tag tag-us">1–50</span></td>
+              <td><span class="vchip vc-good">Accurate</span><div class="vnote">Covered fast — better pacing than EU.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Possessive Alpha</div><div class="t-sub">Rhovan: "Mine. Protect her."</div></td>
+              <td><span class="tag tag-us">Interior voice</span></td>
+              <td><span class="tag tag-us">1–200</span></td>
+              <td><span class="vchip vc-good">Better than EU</span><div class="vnote">Adds Rhovan. Previews 200 eps of this trope. Biggest US advantage.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Forced Mate</div><div class="t-sub">Claim → fortress → altar</div></td>
+              <td><span class="tag tag-us">Full beat</span></td>
+              <td><span class="tag tag-us">1–50</span></td>
+              <td><span class="vchip vc-good">More complete</span><div class="vnote">Altar defiance — richer version of same trope.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Scheming Rival (Wendy)</div><div class="t-sub">One scene at ball</div></td>
+              <td><span class="tag tag-us">One scene</span></td>
+              <td><span class="tag tag-us">50–300</span></td>
+              <td><span class="vchip vc-warn">Under-sold</span><div class="vnote">Right to include — but 1 scene for 250-ep antagonist still thin.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Political Intrigue</div><div class="t-sub">Randolf, King Alderic</div></td>
+              <td><span class="tag tag-us">Seeded</span></td>
+              <td><span class="tag tag-us">201–350</span></td>
+              <td><span class="vchip vc-good">Correctly seeded</span><div class="vnote">Right depth for an arc that peaks 200 eps later.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Cinderella / Rise to Queen</div><div class="t-sub">CH hooks imply it</div></td>
+              <td><span class="tag tag-us">Implied</span></td>
+              <td><span class="tag tag-us">301–350</span></td>
+              <td><span class="vchip vc-good">Correctly implied</span><div class="vnote">Chapter hooks plant transformation without spoiling.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Slow Burn Intimacy</div><div class="t-sub">Peak eps 151–300</div></td>
+              <td><span class="tag tag-red">Absent</span></td>
+              <td><span class="tag tag-us">151–300</span></td>
+              <td><span class="vchip vc-bad">Shared gap</span><div class="vnote">Same blind spot as EU. Mid-run engine invisible.</div></td>
+            </tr>
+            <tr>
+              <td><div class="t-name">Weak to Strong / Combat</div><div class="t-sub">Combat, warrior, saves king</div></td>
+              <td><span class="tag tag-red">Absent</span></td>
+              <td><span class="tag tag-us">51–150, 301–400</span></td>
+              <td><span class="vchip vc-bad">Shared gap</span><div class="vnote">No hint at the transformation arc that drives retention to ep 400.</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="insight-strip" style="grid-template-columns:repeat(3,1fr);margin-top:14px;">
+      <div class="ibox">
+        <div class="ibox-label">EU Variant strength</div>
+        <div class="ibox-body">Pure emotional immersion. Best for listeners who lead with <b>empathy</b>. Full AI motion promo live. Risk: hooks on victim framing that fades after ep 100.</div>
+      </div>
+      <div class="ibox">
+        <div class="ibox-label">US Writing strength</div>
+        <div class="ibox-body">More accurate preview of the full show. Rhovan, Wendy, Alderic, altar defiance. Best for listeners who lead with <b>curiosity about power dynamics</b>.</div>
+      </div>
+      <div class="ibox">
+        <div class="ibox-label">Shared gap — both variants</div>
+        <div class="ibox-body">Neither previews <b>Slow Burn</b> or <b>Weak-to-Strong</b>. Top two retention drivers for eps 100–400. Next script iteration should plant at least one.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ CAMPAIGN ═══ -->
+<div class="page" id="page-campaign">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Campaign</div>
+      <div class="page-sub">Scaling · In-App · Show basics</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="pill pill-val" title="CMS Status">CMS: Testing PGC</span>
+      <span class="pill pill-info">As of 9 Jun 2025</span>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- SECTION 1: SCALING -->
+    <div class="cam-section">
+      <div class="cam-section-head">
+        <div class="cam-section-title">Scaling — US Market</div>
+        <span class="pill pill-live">2 adsets live · ROAS planned</span>
+      </div>
+      <div class="cam-body">
+        <div class="market-pair">
+
+          <!-- ADSET 1: Why Me EU Variant — Production CPS -->
+          <div class="market-block">
+            <div class="market-head">
+              <div class="market-title mt-eu">Why Me — EU Variant</div>
+              <span class="pill pill-live">Switched on</span>
+            </div>
+            <div class="kv-list">
+              <div class="kv-row">
+                <div class="kv-key">Length</div>
+                <div class="kv-val">36 min</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Adset</div>
+                <div class="kv-val">Production CPS</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Status</div>
+                <div class="kv-val">Switched on — Testing PPV On</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Tag</div>
+                <div class="kv-val muted">English 2</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">DRR</div>
+                <div class="kv-val">$500</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Deeplink</div>
+                <div class="kv-val">Ep 1</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Creative</div>
+                <div class="kv-val">GenAI Cinematic Motion · Full AI promo</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Script</div>
+                <div class="kv-val"><a class="ext-link" href="https://docs.google.com/document/d/18Gel4f6M2BS7FLYgJQIa6ZWlqIxgt25a/edit" target="_blank" rel="noopener">View ↗</a></div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Scaling CPS Ad</div>
+                <div class="kv-val"><a class="ext-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB Ads ↗</a></div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Experiments</div>
+                <div class="kv-val muted">2× 3sec · 5× 15sec visual cuts</div>
+              </div>
+              <div class="kv-row" style="padding-top:7px;padding-bottom:7px;">
+                <div class="kv-key">Adset name</div>
+                <div class="kv-val muted" style="font-size:9px;font-family:var(--mono);text-align:right;line-height:1.5;">USA · Meta · Android · Scaling-CPS · Werewolf · Lunar Curse · 568056 · GenAI-Cinematic-Motion · LC-Why Me · 05 Jun 2026</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ADSET 2: Why Me US Writing — Abhi Wadhwa CPS -->
+          <div class="market-block">
+            <div class="market-head">
+              <div class="market-title mt-us">Why Me — US Writing</div>
+              <span class="pill pill-live">Already on</span>
+            </div>
+            <div class="kv-list">
+              <div class="kv-row">
+                <div class="kv-key">Length</div>
+                <div class="kv-val">60 min</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Adset</div>
+                <div class="kv-val">Abhi Wadhwa CPS</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Status</div>
+                <div class="kv-val">Already on</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Tag</div>
+                <div class="kv-val muted">Testing 7</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">DRR</div>
+                <div class="kv-val">$500</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Deeplink</div>
+                <div class="kv-val">Ep 6</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Creative</div>
+                <div class="kv-val">GenAI Cinematic Still · 1 min motion + Stills</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Script</div>
+                <div class="kv-val"><a class="ext-link" href="https://docs.google.com/document/d/1LG59x60uvLIRbyI1WfIz3BxkOA4Kccyz/edit" target="_blank" rel="noopener">View ↗</a></div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Scaling CPS Ad</div>
+                <div class="kv-val"><a class="ext-link" href="https://fb.me/27vqitkFGGCAbGx" target="_blank" rel="noopener">FB Ads ↗</a></div>
+              </div>
+              <div class="kv-row" style="padding-top:7px;padding-bottom:7px;">
+                <div class="kv-key">Adset name</div>
+                <div class="kv-val muted" style="font-size:9px;font-family:var(--mono);text-align:right;line-height:1.5;">USA · Meta · Android · Testing-CPS · Werewolf · Lunar Curse · 568056 · GenAI-Cinematic-Still · 26 May 2026 · Script Cracking</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ROAS row -->
+        <div style="margin-top:10px;">
+          <div class="market-block" style="border-color:rgba(154,96,16,0.25);">
+            <div class="market-head" style="background:var(--warn-soft);">
+              <div class="market-title" style="color:var(--warn);">Production ROAS</div>
+              <span class="pill pill-val">Planning — not started</span>
+            </div>
+            <div class="kv-list">
+              <div class="kv-row">
+                <div class="kv-key">DRR Target</div>
+                <div class="kv-val">$1,000</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Expected start</div>
+                <div class="kv-val muted">Mid June — once CPI holds on Production CPS</div>
+              </div>
+              <div class="kv-row">
+                <div class="kv-key">Basis</div>
+                <div class="kv-val muted">CPI of CPS only</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCALING OBJECTIVE -->
+        <div class="alert-card" style="margin-top:12px; background: var(--eu-soft); border-color: rgba(26,95,168,0.18);">
+          <div class="alert-dot" style="background:var(--eu);"></div>
+          <div class="alert-text">
+            <b>Scaling objective — $100k by July end.</b> Target ~$2k DRR. Currently at $1k DRR across 2 live adsets ($500 each). Gap closes via Production ROAS activation mid-June + further adset expansion.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 2: IN-APP -->
+    <div class="cam-section">
+      <div class="cam-section-head">
+        <div class="cam-section-title">In-App</div>
+        <span class="pill pill-val">Partial — in progress</span>
+      </div>
+      <div class="cam-body">
+
+        <div class="subsec" style="margin-top:0;">Motions</div>
+        <div class="inapp-grid">
+          <div class="inapp-item">
+            <div class="inapp-label">Status</div>
+            <div class="inapp-val">None live</div>
+            <div class="inapp-status is-none">Not started</div>
+          </div>
+          <div class="inapp-item">
+            <div class="inapp-label">Timeline</div>
+            <div class="inapp-val">TBD</div>
+            <div class="inapp-sub">No production date set</div>
+          </div>
+        </div>
+
+        <div class="subsec">Stills</div>
+        <div class="inapp-grid">
+          <div class="inapp-item">
+            <div class="inapp-label">Status</div>
+            <div class="inapp-val">Live to Ep 206</div>
+            <div class="inapp-status is-progress">Partial</div>
+          </div>
+          <div class="inapp-item">
+            <div class="inapp-label">Effort</div>
+            <div class="inapp-val">50 hrs</div>
+            <div class="inapp-sub">~3 weeks</div>
+          </div>
+        </div>
+
+        <div class="subsec">Episodes &amp; Lockpoint</div>
+        <div class="inapp-grid">
+          <div class="inapp-item">
+            <div class="inapp-label">Total Episodes</div>
+            <div class="inapp-val">400</div>
+            <div class="inapp-sub">81 hrs total content</div>
+          </div>
+          <div class="inapp-item">
+            <div class="inapp-label">Avg Episode Length</div>
+            <div class="inapp-val">~15 min</div>
+            <div class="inapp-sub">Per episode</div>
+          </div>
+          <div class="inapp-item">
+            <div class="inapp-label">Lockpoint</div>
+            <div class="inapp-val">Ep 12</div>
+            <div class="inapp-sub">PPV activates after Ep 12</div>
+            <div class="inapp-status is-live">Active</div>
+          </div>
+          <div class="inapp-item">
+            <div class="inapp-label">Free Content</div>
+            <div class="inapp-val">1.5 hrs</div>
+            <div class="inapp-sub">Eps 1–12 free to all users</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function nav(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>
