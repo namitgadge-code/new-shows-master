@@ -406,6 +406,53 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 .alert-text { font-size: 11.5px; color: var(--text2); line-height: 1.6; }
 .alert-text b { color: var(--text); font-weight: 600; }
 
+/* ── PERF TABLES ── */
+.perf-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin: 12px 0; }
+.perf-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
+.perf-table thead tr { background: var(--bg3); }
+.perf-table thead th {
+  padding: 9px 12px; text-align: left;
+  font-family: var(--mono); font-size: 9px; font-weight: 500;
+  color: var(--text3); letter-spacing: 0.05em; text-transform: uppercase;
+  border-right: 1px solid var(--border); white-space: nowrap;
+}
+.perf-table thead th:last-child { border-right: none; }
+.perf-table thead th.num { text-align: right; }
+.perf-table tbody td {
+  padding: 9px 12px; border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border); vertical-align: middle;
+}
+.perf-table tbody td:last-child { border-right: none; }
+.perf-table tbody tr:last-child td { border-bottom: none; }
+.perf-table tbody tr:hover td { background: var(--bg3); }
+.perf-table .num { text-align: right; font-family: var(--mono); font-size: 11px; }
+.perf-table .phase-row td {
+  background: var(--bg3); padding: 5px 12px;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text3); border-right: none;
+}
+.perf-table .variant-row td { background: rgba(26,95,168,0.03); }
+.script-tag {
+  display: inline-block; font-family: var(--mono); font-size: 9px;
+  padding: 2px 7px; border-radius: 3px; font-weight: 500;
+}
+.st-eu { background: var(--eu-soft); color: var(--eu); }
+.st-us { background: var(--us-soft); color: var(--us); }
+.st-blank { background: var(--bg3); color: var(--text3); }
+.metric-good { color: var(--good); font-weight: 600; }
+.metric-bad  { color: var(--red);  font-weight: 600; }
+.metric-mid  { color: var(--warn); font-weight: 600; }
+.ad-link { font-family: var(--mono); font-size: 9px; color: var(--eu); text-decoration: none; border-bottom: 1px solid rgba(26,95,168,0.2); }
+.ad-link:hover { border-color: var(--eu); }
+.phase-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 20px 0 8px;
+}
+.phase-label {
+  font-family: var(--mono); font-size: 9px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);
+}
+.phase-desc { font-size: 11.5px; color: var(--text2); }
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 3px; height: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -428,11 +475,16 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
     <div class="nav-item" onclick="nav('tropes',this)"><span class="nav-dot"></span>Trope Matrix</div>
   </div>
   <div class="nav-group">
-    <div class="nav-label">Scaling</div>
-    <div class="nav-item" onclick="nav('scripts',this)"><span class="nav-dot"></span>Scripts <span class="nav-tag">2</span></div>
-    <div class="nav-item" onclick="nav('campaign',this)"><span class="nav-dot"></span>Campaign</div>
+    <div class="nav-label">In-App</div>
+    <div class="nav-item" onclick="nav('inapp',this)"><span class="nav-dot"></span>In-App Construct</div>
   </div>
-  <div class="nav-footer">Updated 4 Jun 2025</div>
+  <div class="nav-group">
+    <div class="nav-label">Scaling</div>
+    <div class="nav-item" onclick="nav('scaling',this)"><span class="nav-dot"></span>Scripts</div>
+    <div class="nav-item" onclick="nav('adsets',this)"><span class="nav-dot"></span>Adsets</div>
+    <div class="nav-item" onclick="nav('adsets-perf',this)"><span class="nav-dot"></span>Adsets Performance</div>
+  </div>
+  <div class="nav-footer">Updated 9 Jun 2025</div>
 </aside>
 
 <!-- MAIN -->
@@ -664,390 +716,550 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   </div>
 </div>
 
-<!-- ═══ SCRIPTS ═══ -->
-<div class="page" id="page-scripts">
+<!-- ═══ SCALING — SCRIPTS ═══ -->
+<div class="page" id="page-scaling">
   <div class="topbar">
     <div class="topbar-left">
-      <div class="page-title">Scripts</div>
-      <div class="page-sub">Why Me EU Variant (36 min) · Why Me US Writing (60 min) · Trope match vs show arc</div>
+      <div class="page-title">Scaling — Scripts</div>
+      <div class="page-sub">CPI performance by phase · EU Variant vs US Writing</div>
     </div>
-    <div style="display:flex;gap:7px;">
-      <span class="pill pill-live">Both scaling — US</span>
-    </div>
+    <span class="pill pill-live">Both scaling — US</span>
   </div>
   <div class="content">
 
-    <div class="script-pair">
+    <!-- PHASE 1 -->
+    <div class="phase-head">
+      <div>
+        <div class="phase-label">Phase 1 — Script Cracking Base</div>
+        <div class="phase-desc" style="margin-top:3px;">Original creative from Script Cracking team. First CPI signal for each script.</div>
+      </div>
+    </div>
 
-      <!-- EU -->
+    <div class="perf-wrap">
+      <table class="perf-table">
+        <thead>
+          <tr>
+            <th>Script</th>
+            <th>Creative type</th>
+            <th class="num">Spend</th>
+            <th class="num">Impr</th>
+            <th class="num">CPI</th>
+            <th class="num">CPM</th>
+            <th class="num">CTR×CTI</th>
+            <th class="num">CTR</th>
+            <th class="num">Comp/Imp</th>
+            <th class="num">25% Comp/Imp</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="script-tag st-eu">Why Me — EU Variant</span><div style="font-size:10px;color:var(--text3);margin-top:2px;font-family:var(--mono);">36 min · Deeplink Ep 1</div></td>
+            <td><span class="script-tag" style="background:var(--bg3);color:var(--text2);">GenAI CMS Still</span></td>
+            <td class="num">$143</td>
+            <td class="num">11,306</td>
+            <td class="num metric-good">$2.39</td>
+            <td class="num">$12.69</td>
+            <td class="num">0.53%</td>
+            <td class="num">2.74%</td>
+            <td class="num">4.40%</td>
+            <td class="num">7.08%</td>
+            <td><a class="ad-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB ↗</a></td>
+          </tr>
+          <tr>
+            <td><span class="script-tag st-us">Why Me — US Writing</span><div style="font-size:10px;color:var(--text3);margin-top:2px;font-family:var(--mono);">60 min · Deeplink Ep 6</div></td>
+            <td><span class="script-tag" style="background:var(--bg3);color:var(--text2);">GenAI Cinematic Still</span></td>
+            <td class="num">$221</td>
+            <td class="num">9,581</td>
+            <td class="num metric-mid">$5.81</td>
+            <td class="num">$23.05</td>
+            <td class="num">0.40%</td>
+            <td class="num">4.11%</td>
+            <td class="num">5.64%</td>
+            <td class="num">8.29%</td>
+            <td><a class="ad-link" href="https://fb.me/27vqitkFGGCAbGx" target="_blank" rel="noopener">FB ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-head" style="margin-top:28px;">
+      <div>
+        <div class="phase-label">Phase 2 — Production AI Motion Base (EU Variant only)</div>
+        <div class="phase-desc" style="margin-top:3px;">High-quality GenAI Cinematic Motion creatives on the 36 min Why Me script. 2× 3-sec visual refresh · 5× Thruplay variants. US Writing has no production base yet.</div>
+      </div>
+    </div>
+
+    <div class="perf-wrap">
+      <table class="perf-table">
+        <thead>
+          <tr>
+            <th>Variant</th>
+            <th>Type</th>
+            <th class="num">Spend</th>
+            <th class="num">Impr</th>
+            <th class="num">CPI</th>
+            <th class="num">CPM</th>
+            <th class="num">CTR×CTI</th>
+            <th class="num">CTR</th>
+            <th class="num">Comp/Imp</th>
+            <th class="num">25% Comp/Imp</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="phase-row"><td colspan="11">Why Me — EU Variant · 36 min · GenAI Cinematic Motion</td></tr>
+          <tr class="variant-row">
+            <td><span class="script-tag st-eu">3-sec V1</span></td>
+            <td><span style="font-family:var(--mono);font-size:9px;color:var(--text3);">3-sec visual refresh</span></td>
+            <td class="num">$209</td>
+            <td class="num">6,885</td>
+            <td class="num metric-bad">$11.63</td>
+            <td class="num">$30.42</td>
+            <td class="num">0.26%</td>
+            <td class="num">2.27%</td>
+            <td class="num">4.12%</td>
+            <td class="num">5.71%</td>
+            <td><a class="ad-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB ↗</a></td>
+          </tr>
+          <tr class="variant-row">
+            <td><span class="script-tag st-eu">3-sec V2</span></td>
+            <td><span style="font-family:var(--mono);font-size:9px;color:var(--text3);">3-sec visual refresh</span></td>
+            <td class="num">$206</td>
+            <td class="num">8,845</td>
+            <td class="num metric-mid">$5.88</td>
+            <td class="num">$23.29</td>
+            <td class="num">0.40%</td>
+            <td class="num">3.02%</td>
+            <td class="num">5.75%</td>
+            <td class="num">8.28%</td>
+            <td><a class="ad-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB ↗</a></td>
+          </tr>
+          <tr class="variant-row">
+            <td><span class="script-tag st-eu">Thruplay V1</span></td>
+            <td><span style="font-family:var(--mono);font-size:9px;color:var(--text3);">15-sec visual refresh</span></td>
+            <td class="num">$216</td>
+            <td class="num">9,819</td>
+            <td class="num metric-good">$4.50</td>
+            <td class="num">$22.00</td>
+            <td class="num">0.49%</td>
+            <td class="num">2.80%</td>
+            <td class="num">5.26%</td>
+            <td class="num">7.64%</td>
+            <td><a class="ad-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB ↗</a></td>
+          </tr>
+          <tr class="variant-row">
+            <td><span class="script-tag st-eu">Thruplay V2</span></td>
+            <td><span style="font-family:var(--mono);font-size:9px;color:var(--text3);">15-sec visual refresh</span></td>
+            <td class="num">$212</td>
+            <td class="num">8,295</td>
+            <td class="num metric-mid">$6.62</td>
+            <td class="num">$25.53</td>
+            <td class="num">0.39%</td>
+            <td class="num">3.11%</td>
+            <td class="num">4.91%</td>
+            <td class="num">6.98%</td>
+            <td><a class="ad-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB ↗</a></td>
+          </tr>
+          <tr class="variant-row">
+            <td><span class="script-tag st-eu">Thruplay V3</span></td>
+            <td><span style="font-family:var(--mono);font-size:9px;color:var(--text3);">15-sec visual refresh</span></td>
+            <td class="num">$211</td>
+            <td class="num">7,208</td>
+            <td class="num metric-mid">$6.40</td>
+            <td class="num">$29.29</td>
+            <td class="num">0.46%</td>
+            <td class="num">3.00%</td>
+            <td class="num">5.34%</td>
+            <td class="num">7.73%</td>
+            <td><a class="ad-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB ↗</a></td>
+          </tr>
+          <tr class="variant-row">
+            <td><span class="script-tag st-eu">Thruplay V4</span></td>
+            <td><span style="font-family:var(--mono);font-size:9px;color:var(--text3);">15-sec visual refresh</span></td>
+            <td class="num">$216</td>
+            <td class="num">8,113</td>
+            <td class="num metric-mid">$6.35</td>
+            <td class="num">$26.63</td>
+            <td class="num">0.42%</td>
+            <td class="num">3.06%</td>
+            <td class="num">5.24%</td>
+            <td class="num">7.44%</td>
+            <td><a class="ad-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB ↗</a></td>
+          </tr>
+          <tr class="variant-row">
+            <td><span class="script-tag st-eu">Thruplay V5</span></td>
+            <td><span style="font-family:var(--mono);font-size:9px;color:var(--text3);">15-sec visual refresh</span></td>
+            <td class="num">$214</td>
+            <td class="num">10,004</td>
+            <td class="num metric-good">$4.76</td>
+            <td class="num">$21.41</td>
+            <td class="num">0.45%</td>
+            <td class="num">2.97%</td>
+            <td class="num">4.24%</td>
+            <td class="num">6.48%</td>
+            <td><a class="ad-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB ↗</a></td>
+          </tr>
+          <tr class="phase-row"><td colspan="11">Why Me — US Writing · 60 min · No production base yet</td></tr>
+          <tr>
+            <td colspan="11" style="padding:14px 12px;font-size:11.5px;color:var(--text3);font-style:italic;">Production AI motion creative not yet produced for US Writing variant.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Trope compact -->
+    <hr style="margin:28px 0 20px;">
+    <div class="subsec" style="margin-top:0;">Script trope coverage — quick ref</div>
+    <div class="script-pair">
       <div class="script-panel">
         <div class="script-head">
           <div class="sbadge sbadge-eu">EU</div>
           <div>
             <div class="script-name">Why Me — EU Variant</div>
-            <div class="script-meta">36 min · Deeplink Ep 1 · Single POV · Production CPS adset · <a class="ext-link" href="https://docs.google.com/document/d/18Gel4f6M2BS7FLYgJQIa6ZWlqIxgt25a/edit" target="_blank" rel="noopener">Script ↗</a></div>
+            <div class="script-meta">36 min · Single POV · <a class="ext-link" href="https://docs.google.com/document/d/18Gel4f6M2BS7FLYgJQIa6ZWlqIxgt25a/edit" target="_blank" rel="noopener">Script ↗</a></div>
           </div>
         </div>
-        <div class="script-desc">Pure first-person Merida. One voice, one shame spiral. Hook = unresolved humiliation. Full AI motion promo live. No Wendy, no Rhovan, no political framing.</div>
         <table class="ctable">
-          <thead><tr><th>Trope</th><th>Coverage</th><th>Show peak</th><th>Verdict</th></tr></thead>
+          <thead><tr><th>Trope</th><th>Coverage</th><th>Verdict</th></tr></thead>
           <tbody>
-            <tr>
-              <td><div class="t-name">Cursed Underdog</div><div class="t-sub">Wolfless, rejected, humiliated</div></td>
-              <td><span class="tag tag-eu">1–50 · 60%</span></td>
-              <td><span class="tag tag-eu">1–50</span></td>
-              <td><span class="vchip vc-good">Accurate</span><div class="vnote">Leads with actual peak.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Forced Mate</div><div class="t-sub">Darian's claim, car ride</div></td>
-              <td><span class="tag tag-eu">1–50 · 55%</span></td>
-              <td><span class="tag tag-eu">1–50</span></td>
-              <td><span class="vchip vc-good">Accurate</span><div class="vnote">Ends unresolved — effective hook.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Hidden Power Seed</div><div class="t-sub">Grandmother warning only</div></td>
-              <td><span class="tag tag-eu">Trace</span></td>
-              <td><span class="tag tag-muted">251–400</span></td>
-              <td><span class="vchip vc-good">Well seeded</span><div class="vnote">Correct depth — planted as mystery.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Possessive Alpha</div><div class="t-sub">Actions only, no interiority</div></td>
-              <td><span class="tag tag-eu">Behaviour only</span></td>
-              <td><span class="tag tag-eu">1–200</span></td>
-              <td><span class="vchip vc-warn">Under-sold</span><div class="vnote">No Rhovan. High for 200 eps, no emotional signal.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Scheming Rival (Wendy)</div><div class="t-sub">250-ep antagonist</div></td>
-              <td><span class="tag tag-red">Absent</span></td>
-              <td><span class="tag tag-eu">50–300</span></td>
-              <td><span class="vchip vc-bad">Major gap</span><div class="vnote">Zero signal for rivalry-driven listeners.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Slow Burn Intimacy</div><div class="t-sub">Peak eps 151–300</div></td>
-              <td><span class="tag tag-red">Absent</span></td>
-              <td><span class="tag tag-eu">151–300</span></td>
-              <td><span class="vchip vc-bad">Major gap</span><div class="vnote">Show's biggest mid-run engine. Invisible.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Weak to Strong / Combat</div><div class="t-sub">Danny training, warrior arc</div></td>
-              <td><span class="tag tag-red">Absent</span></td>
-              <td><span class="tag tag-eu">51–150, 301–400</span></td>
-              <td><span class="vchip vc-bad">Major gap</span><div class="vnote">No signal she becomes the one who saves him.</div></td>
-            </tr>
+            <tr><td><div class="t-name">Cursed Underdog</div></td><td><span class="tag tag-eu">Peak · 60%</span></td><td><span class="vchip vc-good">Accurate</span></td></tr>
+            <tr><td><div class="t-name">Forced Mate</div></td><td><span class="tag tag-eu">Peak · 55%</span></td><td><span class="vchip vc-good">Accurate</span></td></tr>
+            <tr><td><div class="t-name">Hidden Power seed</div></td><td><span class="tag tag-eu">Trace</span></td><td><span class="vchip vc-good">Well seeded</span></td></tr>
+            <tr><td><div class="t-name">Possessive Alpha</div></td><td><span class="tag tag-eu">Actions only</span></td><td><span class="vchip vc-warn">Under-sold</span></td></tr>
+            <tr><td><div class="t-name">Scheming Rival</div></td><td><span class="tag tag-red">Absent</span></td><td><span class="vchip vc-bad">Major gap</span></td></tr>
+            <tr><td><div class="t-name">Slow Burn</div></td><td><span class="tag tag-red">Absent</span></td><td><span class="vchip vc-bad">Major gap</span></td></tr>
           </tbody>
         </table>
       </div>
-
-      <!-- US -->
       <div class="script-panel">
         <div class="script-head">
           <div class="sbadge sbadge-us">US</div>
           <div>
             <div class="script-name">Why Me — US Writing</div>
-            <div class="script-meta">60 min · Deeplink Ep 6 · Dual POV · Abhi Wadhwa CPS adset · <a class="ext-link" href="https://docs.google.com/document/d/1LG59x60uvLIRbyI1WfIz3BxkOA4Kccyz/edit" target="_blank" rel="noopener">Script ↗</a></div>
+            <div class="script-meta">60 min · Dual POV · <a class="ext-link" href="https://docs.google.com/document/d/1LG59x60uvLIRbyI1WfIz3BxkOA4Kccyz/edit" target="_blank" rel="noopener">Script ↗</a></div>
           </div>
         </div>
-        <div class="script-desc">Multi-POV — Merida + Darian (Rhovan) + 3rd person. Adds Wendy, Randolf, King Alderic, full altar scene. Hook = defiance cliffhanger ("No. I don't accept"). 1 min motion + Stills live.</div>
         <table class="ctable">
-          <thead><tr><th>Trope</th><th>Coverage</th><th>Show peak</th><th>Verdict</th></tr></thead>
+          <thead><tr><th>Trope</th><th>Coverage</th><th>Verdict</th></tr></thead>
           <tbody>
-            <tr>
-              <td><div class="t-name">Cursed Underdog</div><div class="t-sub">Wolfless, rejected</div></td>
-              <td><span class="tag tag-us">1–50 · 60%</span></td>
-              <td><span class="tag tag-us">1–50</span></td>
-              <td><span class="vchip vc-good">Accurate</span><div class="vnote">Covered fast — better pacing than EU.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Possessive Alpha</div><div class="t-sub">Rhovan: "Mine. Protect her."</div></td>
-              <td><span class="tag tag-us">Interior voice</span></td>
-              <td><span class="tag tag-us">1–200</span></td>
-              <td><span class="vchip vc-good">Better than EU</span><div class="vnote">Adds Rhovan. Previews 200 eps of this trope. Biggest US advantage.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Forced Mate</div><div class="t-sub">Claim → fortress → altar</div></td>
-              <td><span class="tag tag-us">Full beat</span></td>
-              <td><span class="tag tag-us">1–50</span></td>
-              <td><span class="vchip vc-good">More complete</span><div class="vnote">Altar defiance — richer version of same trope.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Scheming Rival (Wendy)</div><div class="t-sub">One scene at ball</div></td>
-              <td><span class="tag tag-us">One scene</span></td>
-              <td><span class="tag tag-us">50–300</span></td>
-              <td><span class="vchip vc-warn">Under-sold</span><div class="vnote">Right to include — but 1 scene for 250-ep antagonist still thin.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Political Intrigue</div><div class="t-sub">Randolf, King Alderic</div></td>
-              <td><span class="tag tag-us">Seeded</span></td>
-              <td><span class="tag tag-us">201–350</span></td>
-              <td><span class="vchip vc-good">Correctly seeded</span><div class="vnote">Right depth for an arc that peaks 200 eps later.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Cinderella / Rise to Queen</div><div class="t-sub">CH hooks imply it</div></td>
-              <td><span class="tag tag-us">Implied</span></td>
-              <td><span class="tag tag-us">301–350</span></td>
-              <td><span class="vchip vc-good">Correctly implied</span><div class="vnote">Chapter hooks plant transformation without spoiling.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Slow Burn Intimacy</div><div class="t-sub">Peak eps 151–300</div></td>
-              <td><span class="tag tag-red">Absent</span></td>
-              <td><span class="tag tag-us">151–300</span></td>
-              <td><span class="vchip vc-bad">Shared gap</span><div class="vnote">Same blind spot as EU. Mid-run engine invisible.</div></td>
-            </tr>
-            <tr>
-              <td><div class="t-name">Weak to Strong / Combat</div><div class="t-sub">Combat, warrior, saves king</div></td>
-              <td><span class="tag tag-red">Absent</span></td>
-              <td><span class="tag tag-us">51–150, 301–400</span></td>
-              <td><span class="vchip vc-bad">Shared gap</span><div class="vnote">No hint at the transformation arc that drives retention to ep 400.</div></td>
-            </tr>
+            <tr><td><div class="t-name">Cursed Underdog</div></td><td><span class="tag tag-us">Peak · 60%</span></td><td><span class="vchip vc-good">Accurate</span></td></tr>
+            <tr><td><div class="t-name">Possessive Alpha</div></td><td><span class="tag tag-us">Rhovan voice</span></td><td><span class="vchip vc-good">Better than EU</span></td></tr>
+            <tr><td><div class="t-name">Forced Mate</div></td><td><span class="tag tag-us">Full altar beat</span></td><td><span class="vchip vc-good">More complete</span></td></tr>
+            <tr><td><div class="t-name">Scheming Rival</div></td><td><span class="tag tag-us">One scene</span></td><td><span class="vchip vc-warn">Under-sold</span></td></tr>
+            <tr><td><div class="t-name">Political Intrigue</div></td><td><span class="tag tag-us">Seeded</span></td><td><span class="vchip vc-good">Correctly seeded</span></td></tr>
+            <tr><td><div class="t-name">Slow Burn</div></td><td><span class="tag tag-red">Absent</span></td><td><span class="vchip vc-bad">Shared gap</span></td></tr>
           </tbody>
         </table>
-      </div>
-
-    </div>
-
-    <div class="insight-strip" style="grid-template-columns:repeat(3,1fr);margin-top:14px;">
-      <div class="ibox">
-        <div class="ibox-label">EU Variant strength</div>
-        <div class="ibox-body">Pure emotional immersion. Best for listeners who lead with <b>empathy</b>. Full AI motion promo live. Risk: hooks on victim framing that fades after ep 100.</div>
-      </div>
-      <div class="ibox">
-        <div class="ibox-label">US Writing strength</div>
-        <div class="ibox-body">More accurate preview of the full show. Rhovan, Wendy, Alderic, altar defiance. Best for listeners who lead with <b>curiosity about power dynamics</b>.</div>
-      </div>
-      <div class="ibox">
-        <div class="ibox-label">Shared gap — both variants</div>
-        <div class="ibox-body">Neither previews <b>Slow Burn</b> or <b>Weak-to-Strong</b>. Top two retention drivers for eps 100–400. Next script iteration should plant at least one.</div>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ═══ CAMPAIGN ═══ -->
-<div class="page" id="page-campaign">
+<!-- ═══ SCALING — ADSETS ═══ -->
+<div class="page" id="page-adsets">
   <div class="topbar">
     <div class="topbar-left">
-      <div class="page-title">Campaign</div>
-      <div class="page-sub">Scaling · In-App · Show basics</div>
+      <div class="page-title">Scaling — Adsets</div>
+      <div class="page-sub">Current live adsets · US Market · As of 9 Jun 2025</div>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;">
+    <div style="display:flex;gap:8px;">
       <span class="pill pill-val" title="CMS Status">CMS: Testing PGC</span>
-      <span class="pill pill-info">As of 9 Jun 2025</span>
+      <span class="pill pill-live">2 adsets live</span>
     </div>
   </div>
   <div class="content">
 
-    <!-- SECTION 1: SCALING -->
-    <div class="cam-section">
-      <div class="cam-section-head">
-        <div class="cam-section-title">Scaling — US Market</div>
-        <span class="pill pill-live">2 adsets live · ROAS planned</span>
+    <div class="market-pair">
+
+      <div class="market-block">
+        <div class="market-head">
+          <div class="market-title mt-eu">Why Me — EU Variant</div>
+          <span class="pill pill-live">Switched on</span>
+        </div>
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">Length</div><div class="kv-val">36 min</div></div>
+          <div class="kv-row"><div class="kv-key">Adset</div><div class="kv-val">Production CPS</div></div>
+          <div class="kv-row"><div class="kv-key">Status</div><div class="kv-val">Switched on — Testing PPV On</div></div>
+          <div class="kv-row"><div class="kv-key">Tag</div><div class="kv-val muted">English 2</div></div>
+          <div class="kv-row"><div class="kv-key">DRR</div><div class="kv-val">$500</div></div>
+          <div class="kv-row"><div class="kv-key">Deeplink</div><div class="kv-val">Ep 1</div></div>
+          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val">GenAI Cinematic Motion · Full AI promo</div></div>
+          <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val"><a class="ext-link" href="https://docs.google.com/document/d/18Gel4f6M2BS7FLYgJQIa6ZWlqIxgt25a/edit" target="_blank" rel="noopener">View ↗</a></div></div>
+          <div class="kv-row"><div class="kv-key">Scaling CPS Ad</div><div class="kv-val"><a class="ext-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
+          <div class="kv-row"><div class="kv-key">Experiments</div><div class="kv-val muted">2× 3sec · 5× 15sec visual cuts</div></div>
+          <div class="kv-row" style="padding-top:7px;padding-bottom:7px;">
+            <div class="kv-key">Adset name</div>
+            <div class="kv-val muted" style="font-size:9px;font-family:var(--mono);text-align:right;line-height:1.5;">USA · Meta · Android · Scaling-CPS · Werewolf · Lunar Curse · 568056 · GenAI-Cinematic-Motion · LC-Why Me · 05 Jun 2026</div>
+          </div>
+        </div>
       </div>
-      <div class="cam-body">
-        <div class="market-pair">
 
-          <!-- ADSET 1: Why Me EU Variant — Production CPS -->
-          <div class="market-block">
-            <div class="market-head">
-              <div class="market-title mt-eu">Why Me — EU Variant</div>
-              <span class="pill pill-live">Switched on</span>
-            </div>
-            <div class="kv-list">
-              <div class="kv-row">
-                <div class="kv-key">Length</div>
-                <div class="kv-val">36 min</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Adset</div>
-                <div class="kv-val">Production CPS</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Status</div>
-                <div class="kv-val">Switched on — Testing PPV On</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Tag</div>
-                <div class="kv-val muted">English 2</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">DRR</div>
-                <div class="kv-val">$500</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Deeplink</div>
-                <div class="kv-val">Ep 1</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Creative</div>
-                <div class="kv-val">GenAI Cinematic Motion · Full AI promo</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Script</div>
-                <div class="kv-val"><a class="ext-link" href="https://docs.google.com/document/d/18Gel4f6M2BS7FLYgJQIa6ZWlqIxgt25a/edit" target="_blank" rel="noopener">View ↗</a></div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Scaling CPS Ad</div>
-                <div class="kv-val"><a class="ext-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB Ads ↗</a></div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Experiments</div>
-                <div class="kv-val muted">2× 3sec · 5× 15sec visual cuts</div>
-              </div>
-              <div class="kv-row" style="padding-top:7px;padding-bottom:7px;">
-                <div class="kv-key">Adset name</div>
-                <div class="kv-val muted" style="font-size:9px;font-family:var(--mono);text-align:right;line-height:1.5;">USA · Meta · Android · Scaling-CPS · Werewolf · Lunar Curse · 568056 · GenAI-Cinematic-Motion · LC-Why Me · 05 Jun 2026</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ADSET 2: Why Me US Writing — Abhi Wadhwa CPS -->
-          <div class="market-block">
-            <div class="market-head">
-              <div class="market-title mt-us">Why Me — US Writing</div>
-              <span class="pill pill-live">Already on</span>
-            </div>
-            <div class="kv-list">
-              <div class="kv-row">
-                <div class="kv-key">Length</div>
-                <div class="kv-val">60 min</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Adset</div>
-                <div class="kv-val">Abhi Wadhwa CPS</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Status</div>
-                <div class="kv-val">Already on</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Tag</div>
-                <div class="kv-val muted">Testing 7</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">DRR</div>
-                <div class="kv-val">$500</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Deeplink</div>
-                <div class="kv-val">Ep 6</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Creative</div>
-                <div class="kv-val">GenAI Cinematic Still · 1 min motion + Stills</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Script</div>
-                <div class="kv-val"><a class="ext-link" href="https://docs.google.com/document/d/1LG59x60uvLIRbyI1WfIz3BxkOA4Kccyz/edit" target="_blank" rel="noopener">View ↗</a></div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Scaling CPS Ad</div>
-                <div class="kv-val"><a class="ext-link" href="https://fb.me/27vqitkFGGCAbGx" target="_blank" rel="noopener">FB Ads ↗</a></div>
-              </div>
-              <div class="kv-row" style="padding-top:7px;padding-bottom:7px;">
-                <div class="kv-key">Adset name</div>
-                <div class="kv-val muted" style="font-size:9px;font-family:var(--mono);text-align:right;line-height:1.5;">USA · Meta · Android · Testing-CPS · Werewolf · Lunar Curse · 568056 · GenAI-Cinematic-Still · 26 May 2026 · Script Cracking</div>
-              </div>
-            </div>
-          </div>
-
+      <div class="market-block">
+        <div class="market-head">
+          <div class="market-title mt-us">Why Me — US Writing</div>
+          <span class="pill pill-live">Already on</span>
         </div>
-
-        <!-- ROAS row -->
-        <div style="margin-top:10px;">
-          <div class="market-block" style="border-color:rgba(154,96,16,0.25);">
-            <div class="market-head" style="background:var(--warn-soft);">
-              <div class="market-title" style="color:var(--warn);">Production ROAS</div>
-              <span class="pill pill-val">Planning — not started</span>
-            </div>
-            <div class="kv-list">
-              <div class="kv-row">
-                <div class="kv-key">DRR Target</div>
-                <div class="kv-val">$1,000</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Expected start</div>
-                <div class="kv-val muted">Mid June — once CPI holds on Production CPS</div>
-              </div>
-              <div class="kv-row">
-                <div class="kv-key">Basis</div>
-                <div class="kv-val muted">CPI of CPS only</div>
-              </div>
-            </div>
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">Length</div><div class="kv-val">60 min</div></div>
+          <div class="kv-row"><div class="kv-key">Adset</div><div class="kv-val">Abhi Wadhwa CPS</div></div>
+          <div class="kv-row"><div class="kv-key">Status</div><div class="kv-val">Already on</div></div>
+          <div class="kv-row"><div class="kv-key">Tag</div><div class="kv-val muted">Testing 7</div></div>
+          <div class="kv-row"><div class="kv-key">DRR</div><div class="kv-val">$500</div></div>
+          <div class="kv-row"><div class="kv-key">Deeplink</div><div class="kv-val">Ep 6</div></div>
+          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val">GenAI Cinematic Still · 1 min motion + Stills</div></div>
+          <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val"><a class="ext-link" href="https://docs.google.com/document/d/1LG59x60uvLIRbyI1WfIz3BxkOA4Kccyz/edit" target="_blank" rel="noopener">View ↗</a></div></div>
+          <div class="kv-row"><div class="kv-key">Scaling CPS Ad</div><div class="kv-val"><a class="ext-link" href="https://fb.me/27vqitkFGGCAbGx" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
+          <div class="kv-row" style="padding-top:7px;padding-bottom:7px;">
+            <div class="kv-key">Adset name</div>
+            <div class="kv-val muted" style="font-size:9px;font-family:var(--mono);text-align:right;line-height:1.5;">USA · Meta · Android · Testing-CPS · Werewolf · Lunar Curse · 568056 · GenAI-Cinematic-Still · 26 May 2026 · Script Cracking</div>
           </div>
         </div>
+      </div>
 
-        <!-- SCALING OBJECTIVE -->
-        <div class="alert-card" style="margin-top:12px; background: var(--eu-soft); border-color: rgba(26,95,168,0.18);">
-          <div class="alert-dot" style="background:var(--eu);"></div>
-          <div class="alert-text">
-            <b>Scaling objective — $100k by July end.</b> Target ~$2k DRR. Currently at $1k DRR across 2 live adsets ($500 each). Gap closes via Production ROAS activation mid-June + further adset expansion.
-          </div>
+    </div>
+
+    <div style="margin-top:12px;">
+      <div class="market-block" style="border-color:rgba(154,96,16,0.25);">
+        <div class="market-head" style="background:var(--warn-soft);">
+          <div class="market-title" style="color:var(--warn);">Production ROAS</div>
+          <span class="pill pill-val">Planning — not started</span>
         </div>
-
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">DRR Target</div><div class="kv-val">$1,000</div></div>
+          <div class="kv-row"><div class="kv-key">Expected start</div><div class="kv-val muted">Mid June — once CPI holds on Production CPS</div></div>
+          <div class="kv-row"><div class="kv-key">Basis</div><div class="kv-val muted">CPI of CPS only</div></div>
+        </div>
       </div>
     </div>
 
-    <!-- SECTION 2: IN-APP -->
-    <div class="cam-section">
-      <div class="cam-section-head">
-        <div class="cam-section-title">In-App</div>
-        <span class="pill pill-val">Partial — in progress</span>
+    <div class="alert-card" style="margin-top:12px; background: var(--eu-soft); border-color: rgba(26,95,168,0.18);">
+      <div class="alert-dot" style="background:var(--eu);"></div>
+      <div class="alert-text">
+        <b>Scaling objective — $100k by July end.</b> Target ~$2k DRR. Currently at $1k DRR across 2 live adsets ($500 each). Gap closes via Production ROAS activation mid-June + further adset expansion.
       </div>
-      <div class="cam-body">
+    </div>
 
-        <div class="subsec" style="margin-top:0;">Motions</div>
-        <div class="inapp-grid">
-          <div class="inapp-item">
-            <div class="inapp-label">Status</div>
-            <div class="inapp-val">None live</div>
-            <div class="inapp-status is-none">Not started</div>
-          </div>
-          <div class="inapp-item">
-            <div class="inapp-label">Timeline</div>
-            <div class="inapp-val">TBD</div>
-            <div class="inapp-sub">No production date set</div>
-          </div>
+  </div>
+</div>
+
+<!-- ═══ SCALING — ADSETS PERFORMANCE ═══ -->
+<div class="page" id="page-adsets-perf">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Scaling — Adsets Performance</div>
+      <div class="page-sub">Live performance data · To be updated</div>
+    </div>
+    <span class="pill pill-val">Data pending</span>
+  </div>
+  <div class="content">
+    <div class="prose-card" style="border-style:dashed;">
+      <p style="color:var(--text3);font-style:italic;">Performance data for live scaling adsets to be added here. Will include CPS, ROAS, daily spend, and retention metrics once shared.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ IN-APP CONSTRUCT ═══ -->
+<div class="page" id="page-inapp">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">In-App Construct</div>
+      <div class="page-sub">Show metadata · Motions · Stills · Lockpoint · Deeplinks</div>
+    </div>
+    <span class="pill pill-info">As of 9 Jun 2025</span>
+  </div>
+  <div class="content">
+
+    <!-- SHOW METADATA FROM CMS -->
+    <div class="subsec" style="margin-top:0;">Show Metadata</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+
+      <div class="cam-section">
+        <div class="cam-section-head"><div class="cam-section-title">Identity</div></div>
+        <div class="market-body">
+          <div class="kv-row"><div class="kv-key">Title</div><div class="kv-val">Lunar Curse</div></div>
+          <div class="kv-row"><div class="kv-key">Full source title</div><div class="kv-val muted" style="font-size:10.5px;">The Lunar Curse: A Second Chance With Alpha Draven</div></div>
+          <div class="kv-row"><div class="kv-key">Writer</div><div class="kv-val">Aarya Cabrera</div></div>
+          <div class="kv-row"><div class="kv-key">Original author</div><div class="kv-val">Paschalinelily</div></div>
+          <div class="kv-row"><div class="kv-key">Source</div><div class="kv-val">China Literature</div></div>
+          <div class="kv-row"><div class="kv-key">Source category</div><div class="kv-val muted">Reserved</div></div>
+          <div class="kv-row"><div class="kv-key">Source link</div><div class="kv-val"><a class="ext-link" href="https://www.webnovel.com/book/the-lunar-curse-a-second-chance-with-alpha-draven_32060442900418405" target="_blank" rel="noopener">Webnovel ↗</a></div></div>
         </div>
+      </div>
 
-        <div class="subsec">Stills</div>
-        <div class="inapp-grid">
-          <div class="inapp-item">
-            <div class="inapp-label">Status</div>
-            <div class="inapp-val">Live to Ep 206</div>
-            <div class="inapp-status is-progress">Partial</div>
-          </div>
-          <div class="inapp-item">
-            <div class="inapp-label">Effort</div>
-            <div class="inapp-val">50 hrs</div>
-            <div class="inapp-sub">~3 weeks</div>
-          </div>
+      <div class="cam-section">
+        <div class="cam-section-head"><div class="cam-section-title">Classification</div></div>
+        <div class="market-body">
+          <div class="kv-row"><div class="kv-key">Type</div><div class="kv-val">Audiobook Series</div></div>
+          <div class="kv-row"><div class="kv-key">Language</div><div class="kv-val">English</div></div>
+          <div class="kv-row"><div class="kv-key">Genre</div><div class="kv-val">Romantasy</div></div>
+          <div class="kv-row"><div class="kv-key">Sub-genre</div><div class="kv-val">Werewolf romance</div></div>
+          <div class="kv-row"><div class="kv-key">Adaptation weight</div><div class="kv-val">Light</div></div>
+          <div class="kv-row"><div class="kv-key">Category type</div><div class="kv-val">Growth</div></div>
+          <div class="kv-row"><div class="kv-key">Maturity rating</div><div class="kv-val">Ages 18+</div></div>
+          <div class="kv-row"><div class="kv-key">State</div><div class="kv-val"><span class="inapp-status is-none" style="display:inline-block;margin:0;">Hiatus</span></div></div>
         </div>
+      </div>
 
-        <div class="subsec">Episodes &amp; Lockpoint</div>
-        <div class="inapp-grid">
-          <div class="inapp-item">
-            <div class="inapp-label">Total Episodes</div>
-            <div class="inapp-val">400</div>
-            <div class="inapp-sub">81 hrs total content</div>
-          </div>
-          <div class="inapp-item">
-            <div class="inapp-label">Avg Episode Length</div>
-            <div class="inapp-val">~15 min</div>
-            <div class="inapp-sub">Per episode</div>
-          </div>
-          <div class="inapp-item">
-            <div class="inapp-label">Lockpoint</div>
-            <div class="inapp-val">Ep 12</div>
-            <div class="inapp-sub">PPV activates after Ep 12</div>
-            <div class="inapp-status is-live">Active</div>
-          </div>
-          <div class="inapp-item">
-            <div class="inapp-label">Free Content</div>
-            <div class="inapp-val">1.5 hrs</div>
-            <div class="inapp-sub">Eps 1–12 free to all users</div>
-          </div>
+    </div>
+
+    <!-- SHOW STATS FROM CMS -->
+    <div class="g4" style="margin-bottom:16px;">
+      <div class="stat-card">
+        <div class="stat-label">Rating</div>
+        <div class="stat-val">4.5</div>
+        <div class="stat-sub">244 reviews</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Added to Library</div>
+        <div class="stat-val">4,602</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Plays</div>
+        <div class="stat-val">1.1M</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Comments</div>
+        <div class="stat-val">1,448</div>
+      </div>
+    </div>
+
+    <!-- LOCKING CONFIG FROM CMS -->
+    <div class="subsec">Locking Configuration</div>
+    <div class="inapp-grid" style="margin-bottom:16px;">
+      <div class="inapp-item">
+        <div class="inapp-label">Lockpoint</div>
+        <div class="inapp-val">Ep 12</div>
+        <div class="inapp-sub">Episode 12 — Paying My Mother a Visit</div>
+        <div class="inapp-status is-live">Active</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">Free Content</div>
+        <div class="inapp-val">1.5 hrs</div>
+        <div class="inapp-sub">Eps 1–12 free to all users</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">Low Initial Unlock</div>
+        <div class="inapp-val">On</div>
+        <div class="inapp-sub">Starts after Ep 12</div>
+        <div class="inapp-status is-live">Enabled</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">High Initial Unlock</div>
+        <div class="inapp-val">On</div>
+        <div class="inapp-sub">Starts after Ep 12</div>
+        <div class="inapp-status is-live">Enabled</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">Discount</div>
+        <div class="inapp-val">Off</div>
+        <div class="inapp-status is-none">Disabled</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">VIP</div>
+        <div class="inapp-val">Off</div>
+        <div class="inapp-status is-none">Disabled</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">Full Show Unlocking</div>
+        <div class="inapp-val">Off</div>
+        <div class="inapp-status is-none">Disabled</div>
+      </div>
+    </div>
+
+    <!-- DEEPLINKS -->
+    <div class="subsec">Critical Episode Deeplinks</div>
+    <div class="cam-section" style="margin-bottom:16px;">
+      <div class="cam-section-head"><div class="cam-section-title">Episode Deeplinks</div></div>
+      <div class="market-body">
+        <div class="kv-row">
+          <div class="kv-key">Ep 1 — Show start<br><span style="color:var(--eu);font-size:8px;">EU 36 min deeplink</span></div>
+          <div class="kv-val" style="font-family:var(--mono);font-size:10px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=b72222003b8e4f378c7682cd4bf948c7">pocketfm://open · b7222…</a></div>
         </div>
+        <div class="kv-row">
+          <div class="kv-key">Ep 6 — US Writing entry<br><span style="color:var(--us);font-size:8px;">US 60 min deeplink</span></div>
+          <div class="kv-val" style="font-family:var(--mono);font-size:10px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=c1f643e65efc4bad9c633e533a042805">pocketfm://open · c1f64…</a></div>
+        </div>
+        <div class="kv-row">
+          <div class="kv-key">Ep 12 — Lockpoint<br><span style="color:var(--accent);font-size:8px;">PPV activates after this</span></div>
+          <div class="kv-val" style="font-family:var(--mono);font-size:10px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=5afe931f315a4bbdabd37e2d6f15278e">pocketfm://open · 5afe9…</a></div>
+        </div>
+      </div>
+    </div>
 
+    <!-- MOTIONS -->
+    <div class="subsec">Motions</div>
+    <div class="inapp-grid" style="margin-bottom:16px;">
+      <div class="inapp-item">
+        <div class="inapp-label">Status</div>
+        <div class="inapp-val">None live</div>
+        <div class="inapp-status is-none">Not started</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">Timeline</div>
+        <div class="inapp-val">TBD</div>
+        <div class="inapp-sub">No production date set</div>
+      </div>
+    </div>
+
+    <!-- STILLS -->
+    <div class="subsec">Stills</div>
+    <div class="inapp-grid" style="margin-bottom:8px;">
+      <div class="inapp-item">
+        <div class="inapp-label">Live as of 9 Jun</div>
+        <div class="inapp-val">~Ep 220</div>
+        <div class="inapp-sub">Old audio · 50 hrs effort</div>
+        <div class="inapp-status is-progress">Partial</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">New audio pick</div>
+        <div class="inapp-val">15 Jun</div>
+        <div class="inapp-sub">Stills to be updated with new audio</div>
+        <div class="inapp-status is-progress">Scheduled</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">Effort</div>
+        <div class="inapp-val">50 hrs</div>
+        <div class="inapp-sub">~3 weeks · Batches</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">Thumbnail</div>
+        <div class="inapp-val">Legacy live</div>
+        <div class="inapp-sub">New Aural Design — not uploaded</div>
+        <div class="inapp-status is-none">New design pending</div>
+      </div>
+    </div>
+
+    <div class="alert-card" style="margin-top:8px;">
+      <div class="alert-dot"></div>
+      <div class="alert-text"><b>9 Jun update (Production Head):</b> Show stills live with old audio. ~50 hrs of work covers ~220 episodes. New audio to be picked on 15 Jun — stills will be refreshed after that.</div>
+    </div>
+
+    <!-- EPISODES -->
+    <div class="subsec" style="margin-top:20px;">Episodes</div>
+    <div class="inapp-grid">
+      <div class="inapp-item">
+        <div class="inapp-label">Total Episodes</div>
+        <div class="inapp-val">400</div>
+        <div class="inapp-sub">81.3 hrs total</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">Avg Ep Length</div>
+        <div class="inapp-val">~15 min</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">Show State</div>
+        <div class="inapp-val">Hiatus</div>
+        <div class="inapp-sub">Series on pause</div>
+        <div class="inapp-status is-none">Hiatus</div>
+      </div>
+      <div class="inapp-item">
+        <div class="inapp-label">PGC Status</div>
+        <div class="inapp-val">Testing</div>
+        <div class="inapp-sub">As of 9 Jun</div>
+        <div class="inapp-status is-progress">In testing</div>
       </div>
     </div>
 
