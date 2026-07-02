@@ -7,27 +7,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:      #fafaf8;
+  --bg:      #f5f5f5;
   --bg2:     #ffffff;
-  --bg3:     #f4f3ef;
-  --bg4:     #eeede8;
-  --border:  rgba(0,0,0,0.08);
-  --border2: rgba(0,0,0,0.14);
-  --text:    #1a1916;
-  --text2:   #6b6860;
-  --text3:   #a8a59e;
-  --accent:  #b8601a;
-  --accent2: rgba(184,96,26,0.07);
+  --bg3:     #efefef;
+  --bg4:     #e8e8e8;
+  --border:  rgba(0,0,0,0.10);
+  --border2: rgba(0,0,0,0.18);
+  --text:    #000000;
+  --text2:   #222222;
+  --text3:   #555555;
+  --accent:  #1a5fa8;
+  --accent2: rgba(26,95,168,0.07);
   --eu:      #1a5fa8;
-  --eu-soft: rgba(26,95,168,0.07);
+  --eu-soft: rgba(26,95,168,0.08);
   --us:      #1a7a52;
-  --us-soft: rgba(26,122,82,0.07);
+  --us-soft: rgba(26,122,82,0.08);
   --red:     #b02a2a;
-  --red-soft:rgba(176,42,42,0.07);
-  --warn:    #9a6010;
-  --warn-soft:rgba(154,96,16,0.08);
+  --red-soft:rgba(176,42,42,0.08);
+  --warn:    #8a5000;
+  --warn-soft:rgba(138,80,0,0.08);
   --good:    #1a6e3c;
-  --good-soft:rgba(26,110,60,0.07);
+  --good-soft:rgba(26,110,60,0.08);
   --font:    'Inter', sans-serif;
   --mono:    'IBM Plex Mono', monospace;
 }
@@ -43,21 +43,60 @@ body {
 }
 
 /* ── LAYOUT ── */
-.layout { display: flex; min-height: 100vh; }
+.layout { display: flex; flex-direction: column; min-height: 100vh; }
 
-/* ── SIDEBAR ── */
-aside {
-  width: 196px;
-  flex-shrink: 0;
+/* ── TOP CHROME ── */
+.top-chrome {
+  width: 100%;
   background: var(--bg2);
-  border-right: 1px solid var(--border);
-  position: fixed;
-  top: 0; left: 0; bottom: 0;
-  overflow-y: auto;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
+.top-chrome-inner {
+  display: flex; align-items: center;
+  padding: 0 28px;
+  gap: 0;
+  height: 48px;
+}
+.brand-logo {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent); white-space: nowrap;
+  margin-right: 20px; flex-shrink: 0;
+}
+.show-switcher {
+  display: flex; align-items: stretch;
+  gap: 2px; height: 100%;
+}
+.show-tab-h {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600;
+  padding: 0 16px;
+  border: none; border-bottom: 2px solid transparent;
+  background: transparent; color: var(--text3);
+  cursor: pointer; transition: all 0.12s;
+  white-space: nowrap; position: relative;
+}
+.show-tab-h:hover { color: var(--text2); }
+.show-tab-h.tab-active { color: var(--text); border-bottom-color: var(--accent); }
+.show-tab-h .tab-badge {
+  font-family: var(--mono); font-size: 9px; font-weight: 400;
+  color: var(--text3); background: var(--bg3);
+  padding: 1px 5px; border-radius: 3px;
+}
+.show-tab-h.tab-active .tab-badge { color: var(--accent); background: var(--accent2); }
+.chrome-divider { width: 1px; background: var(--border); margin: 10px 12px; flex-shrink: 0; }
+.chrome-cms-link {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.04em;
+  color: var(--eu); text-decoration: none;
+  padding: 3px 8px; border-radius: 4px;
+  border: 1px solid rgba(26,95,168,0.2);
+  background: var(--eu-soft); margin-left: auto; flex-shrink: 0;
+  display: inline-flex; align-items: center;
+  transition: background 0.1s;
+}
+.chrome-cms-link:hover { background: rgba(26,95,168,0.14); }
 .brand {
   padding: 20px 16px 16px;
   border-bottom: 1px solid var(--border);
@@ -67,21 +106,16 @@ aside {
   letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--accent);
 }
-.brand-sub {
-  font-family: var(--mono);
-  font-size: 9px; color: var(--text3);
-  margin-top: 2px; letter-spacing: 0.04em;
-}
+.brand-sub { font-family: var(--mono); font-size: 9px; color: var(--text3); margin-top: 2px; }
 .brand-link {
   display: inline-flex; align-items: center; gap: 4px;
   font-family: var(--mono); font-size: 9px;
   color: var(--accent); text-decoration: none;
   margin-top: 7px; padding: 3px 7px;
   background: var(--accent2); border-radius: 4px;
-  border: 1px solid rgba(184,96,26,0.18);
-  transition: background 0.1s;
+  border: 1px solid rgba(26,95,168,0.18); transition: background 0.1s;
 }
-.brand-link:hover { background: rgba(184,96,26,0.14); }
+.brand-link:hover { background: rgba(26,95,168,0.14); }
 .ext-link {
   color: var(--eu); text-decoration: none;
   border-bottom: 1px solid rgba(26,95,168,0.25);
@@ -103,7 +137,7 @@ aside {
   border-left: 2px solid transparent;
   transition: all 0.1s; user-select: none;
 }
-.nav-item:hover { color: var(--text); background: var(--bg3); }
+.nav-item:hover { color: #000; background: var(--bg3); }
 .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: var(--accent2); }
 .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.5; flex-shrink: 0; }
 .nav-tag {
@@ -119,7 +153,18 @@ aside {
 }
 
 /* ── MAIN ── */
-main { margin-left: 196px; flex: 1; min-width: 0; }
+/* ── BODY LAYOUT ── */
+.body-row { display: flex; flex: 1; min-height: 0; }
+aside {
+  width: 180px;
+  flex-shrink: 0;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+main { flex: 1; min-width: 0; }
 
 .page { display: none; }
 .page.active { display: block; animation: fadeUp 0.18s ease; }
@@ -131,11 +176,11 @@ main { margin-left: 196px; flex: 1; min-width: 0; }
   padding: 14px 28px;
   border-bottom: 1px solid var(--border);
   background: var(--bg2);
-  position: sticky; top: 0; z-index: 50;
+  position: sticky; top: 48px; z-index: 50;
 }
 .topbar-left { display: flex; align-items: center; gap: 10px; }
-.page-title { font-size: 14px; font-weight: 700; color: var(--text); }
-.page-sub { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+.page-title { font-size: 14px; font-weight: 700; color: #000; }
+.page-sub { font-family: var(--mono); font-size: 10px; color: #555; }
 .pill {
   font-family: var(--mono); font-size: 9px;
   padding: 3px 9px; border-radius: 20px; letter-spacing: 0.04em;
@@ -153,8 +198,8 @@ main { margin-left: 196px; flex: 1; min-width: 0; }
   letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--accent); margin-bottom: 3px;
 }
-.sec-title { font-size: 17px; font-weight: 700; color: var(--text); }
-.sec-desc  { font-size: 12px; color: var(--text2); margin-top: 3px; }
+.sec-title { font-size: 17px; font-weight: 700; color: #000; }
+.sec-desc  { font-size: 12px; color: #222; margin-top: 3px; }
 
 /* ── DIVIDERS ── */
 hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
@@ -177,7 +222,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   padding: 13px 15px;
 }
 .stat-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 4px; }
-.stat-val   { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1.1; }
+.stat-val   { font-size: 22px; font-weight: 700; color: #000; line-height: 1.1; }
 .stat-sub   { font-size: 11px; color: var(--text2); margin-top: 3px; }
 
 /* ── GENERAL CARD ── */
@@ -187,8 +232,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   border-radius: 8px;
   padding: 15px 17px;
 }
-.card-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
-.card-body  { font-size: 12px; color: var(--text2); line-height: 1.65; }
+.card-title { font-size: 13px; font-weight: 600; color: #000; margin-bottom: 5px; }
+.card-body  { font-size: 12px; color: #222; line-height: 1.65; }
 
 /* ── FULL PROSE CARD ── */
 .prose-card {
@@ -198,7 +243,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   padding: 16px 18px;
   margin-bottom: 12px;
 }
-.prose-card p { font-size: 12.5px; color: var(--text2); line-height: 1.75; }
+.prose-card p { font-size: 12.5px; color: #222; line-height: 1.75; }
 .prose-card p+p { margin-top: 8px; }
 
 /* ── PULL QUOTE ── */
@@ -208,7 +253,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   background: var(--accent2);
   border-radius: 0 6px 6px 0;
   font-size: 12px; font-style: italic;
-  color: var(--text2); margin: 14px 0; line-height: 1.6;
+  color: #333; margin: 14px 0; line-height: 1.6;
 }
 
 /* ── TAGS ── */
@@ -236,8 +281,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   padding: 10px 10px 9px;
 }
 .arc-eps  { font-family: var(--mono); font-size: 10px; font-weight: 500; color: var(--accent); margin-bottom: 4px; }
-.arc-name { font-size: 10px; font-weight: 600; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
-.arc-blurb{ font-size: 10px; color: var(--text2); line-height: 1.5; }
+.arc-name { font-size: 10px; font-weight: 600; color: #000; margin-bottom: 4px; line-height: 1.3; }
+.arc-blurb{ font-size: 10px; color: #222; line-height: 1.5; }
 
 /* ── CHAR GRID ── */
 .char-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 10px; }
@@ -247,8 +292,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   border-radius: 6px; padding: 11px 13px;
 }
 .char-role { font-family: var(--mono); font-size: 9px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
-.char-name { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-.char-desc { font-size: 11px; color: var(--text2); line-height: 1.55; }
+.char-name { font-size: 12px; font-weight: 700; color: #000; margin-bottom: 4px; }
+.char-desc { font-size: 11px; color: #222; line-height: 1.55; }
 
 /* ── TROPE MATRIX ── */
 .matrix-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin: 14px 0; }
@@ -269,7 +314,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   border-right: 1px solid var(--border);
   text-align: center; vertical-align: middle;
 }
-.mtable tbody td.tc { text-align: left; font-size: 11px; font-weight: 600; color: var(--text); }
+.mtable tbody td.tc { text-align: left; font-size: 11px; font-weight: 600; color: #000; }
 .mtable tbody td.tc span { display: block; font-size: 9px; font-weight: 400; color: var(--text3); margin-top: 1px; font-family: var(--mono); }
 .mtable tbody tr:last-child td { border-bottom: none; }
 .mtable tbody tr:hover td { background: var(--bg3); }
@@ -301,8 +346,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   border-radius: 6px; padding: 12px 14px;
 }
 .ibox-label { font-family: var(--mono); font-size: 9px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
-.ibox-body  { font-size: 11px; color: var(--text2); line-height: 1.6; }
-.ibox-body b { color: var(--text); font-weight: 600; }
+.ibox-body  { font-size: 11px; color: #222; line-height: 1.6; }
+.ibox-body b { color: #000; font-weight: 600; }
 
 /* ── SCRIPTS ── */
 .script-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
@@ -350,7 +395,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   border-bottom: 1px solid var(--border);
   background: var(--bg3);
 }
-.cam-section-title { font-size: 12px; font-weight: 700; color: var(--text); }
+.cam-section-title { font-size: 12px; font-weight: 700; color: #000; }
 .cam-body { padding: 16px; }
 
 /* market blocks inside cam-body */
@@ -365,7 +410,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   padding: 8px 13px;
   border-bottom: 1px solid var(--border);
 }
-.market-title { font-size: 12px; font-weight: 700; }
+.market-title { font-size: 12px; font-weight: 700; color: #000; }
 .mt-eu { color: var(--eu); }
 .mt-us { color: var(--us); }
 .kv-list { padding: 6px 0; }
@@ -377,8 +422,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 }
 .kv-row:last-child { border-bottom: none; }
 .kv-key { font-family: var(--mono); font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; padding-top: 1px; flex-shrink: 0; }
-.kv-val { font-size: 11px; color: var(--text); font-weight: 500; text-align: right; }
-.kv-val.muted { color: var(--text2); font-weight: 400; font-size: 10.5px; }
+.kv-val { font-size: 11px; color: #000; font-weight: 500; text-align: right; }
+.kv-val.muted { color: #333; font-weight: 400; font-size: 10.5px; }
 
 /* inapp grid */
 .inapp-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
@@ -388,8 +433,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   border-radius: 6px; padding: 11px 13px;
 }
 .inapp-label { font-family: var(--mono); font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-.inapp-val   { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.1; }
-.inapp-sub   { font-size: 10.5px; color: var(--text2); margin-top: 3px; }
+.inapp-val   { font-size: 14px; font-weight: 700; color: #000; line-height: 1.1; }
+.inapp-sub   { font-size: 10.5px; color: #333; margin-top: 3px; }
 .inapp-status{ display: inline-block; font-family: var(--mono); font-size: 9px; padding: 2px 6px; border-radius: 3px; margin-top: 5px; }
 .is-none     { background: var(--red-soft); color: var(--red); }
 .is-progress { background: var(--warn-soft); color: var(--warn); }
@@ -403,8 +448,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   border-radius: 6px; padding: 12px 14px; margin-top: 12px;
 }
 .alert-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 4px; flex-shrink: 0; }
-.alert-text { font-size: 11.5px; color: var(--text2); line-height: 1.6; }
-.alert-text b { color: var(--text); font-weight: 600; }
+.alert-text { font-size: 11.5px; color: #222; line-height: 1.6; }
+.alert-text b { color: #000; font-weight: 600; }
 
 /* ── PERF TABLES ── */
 .perf-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin: 12px 0; }
@@ -420,7 +465,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 .perf-table thead th.num { text-align: right; }
 .perf-table tbody td {
   padding: 9px 12px; border-bottom: 1px solid var(--border);
-  border-right: 1px solid var(--border); vertical-align: middle;
+  border-right: 1px solid var(--border); vertical-align: middle; color: #000;
 }
 .perf-table tbody td:last-child { border-right: none; }
 .perf-table tbody tr:last-child td { border-bottom: none; }
@@ -453,45 +498,67 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
   letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);
 }
 .phase-desc { font-size: 11.5px; color: var(--text2); }
+
+/* ── PERF CONTROLS ── */
+.ctrl-label { font-family:var(--mono); font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text3); white-space:nowrap; }
+.seg-group { display:inline-flex; border:1px solid var(--border2); border-radius:5px; overflow:hidden; }
+.seg-btn {
+  font-family:var(--mono); font-size:9px; letter-spacing:0.05em; text-transform:uppercase;
+  padding:4px 11px; border:none; border-right:1px solid var(--border2);
+  background:var(--bg2); color:var(--text2); cursor:pointer; transition:all 0.1s;
+}
+.seg-btn:last-child { border-right:none; }
+.seg-btn:hover { background:var(--bg3); color:var(--text); }
+.seg-btn.seg-active { background:var(--accent2); color:var(--accent); font-weight:600; }
+.dt-input {
+  font-family:var(--mono); font-size:10px; color:var(--text);
+  background:var(--bg2); border:1px solid var(--border2);
+  border-radius:4px; padding:3px 7px; outline:none; cursor:pointer;
+}
+.dt-input:focus { border-color:var(--accent); }
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 3px; height: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
 </style>
 </head>
 <body>
 <div class="layout">
 
-<!-- SIDEBAR -->
+<!-- TOP CHROME: show selector + dynamic CMS link -->
+<div class="top-chrome">
+  <div class="top-chrome-inner">
+    <div class="brand-logo">Pocket FM</div>
+    <div class="chrome-divider"></div>
+    <div class="show-switcher">
+      <button class="show-tab-h tab-active" data-show="lc" onclick="switchShow('lc')">
+        Lunar Curse <span class="tab-badge">568056</span>
+      </button>
+      <button class="show-tab-h" data-show="tep" onclick="switchShow('tep')">
+        Eclipse Princess <span class="tab-badge">489089</span>
+      </button>
+      <button class="show-tab-h" data-show="atc" onclick="switchShow('atc')">
+        Ashes to Crown <span class="tab-badge">580407</span>
+      </button>
+    </div>
+    <a class="chrome-cms-link" id="chrome-cms-link" href="https://cms.pocketfm.com/shows/audiobooks?tab=published&id=f123714ce8bfcb28cc12eec4d53a70453fe8e640" target="_blank" rel="noopener">↗ CMS</a>
+  </div>
+</div>
+
+<!-- BODY ROW: sidebar nav + main content -->
+<div class="body-row">
+
 <aside>
-  <div class="brand">
-    <div class="brand-title">Lunar Curse</div>
-    <div class="brand-sub">ID · 568056</div>
-    <a class="brand-link" href="https://cms.pocketfm.com/shows/audiobooks?tab=published&id=f123714ce8bfcb28cc12eec4d53a70453fe8e640" target="_blank" rel="noopener">↗ CMS</a>
-  </div>
-  <div class="nav-group">
-    <div class="nav-label">Show</div>
-    <div class="nav-item active" onclick="nav('show',this)"><span class="nav-dot"></span>Overview</div>
-    <div class="nav-item" onclick="nav('tropes',this)"><span class="nav-dot"></span>Trope Matrix</div>
-  </div>
-  <div class="nav-group">
-    <div class="nav-label">In-App</div>
-    <div class="nav-item" onclick="nav('inapp',this)"><span class="nav-dot"></span>In-App Construct</div>
-  </div>
-  <div class="nav-group">
-    <div class="nav-label">Scaling</div>
-    <div class="nav-item" onclick="nav('scaling',this)"><span class="nav-dot"></span>Scripts</div>
-    <div class="nav-item" onclick="nav('adsets',this)"><span class="nav-dot"></span>Adsets</div>
-    <div class="nav-item" onclick="nav('adsets-perf',this)"><span class="nav-dot"></span>Adsets Performance</div>
-  </div>
-  <div class="nav-footer">Updated 9 Jun 2025</div>
+  <div id="sidebar-nav"></div>
+  <div class="nav-footer">Updated 30 Jun 2026</div>
 </aside>
 
 <!-- MAIN -->
 <main>
 
-<!-- ═══ SHOW OVERVIEW ═══ -->
-<div class="page active" id="page-show">
+<!-- ═══ LC PAGES ═══ -->
+<div class="page" id="page-lc-show">
   <div class="topbar">
     <div class="topbar-left">
       <div class="page-title">Show Overview</div>
@@ -610,9 +677,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 
   </div>
 </div>
-
-<!-- ═══ TROPE MATRIX ═══ -->
-<div class="page" id="page-tropes">
+<div class="page" id="page-lc-tropes">
   <div class="topbar">
     <div class="topbar-left">
       <div class="page-title">Trope Matrix</div>
@@ -715,9 +780,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 
   </div>
 </div>
-
-<!-- ═══ SCALING — SCRIPTS ═══ -->
-<div class="page" id="page-scaling">
+<div class="page" id="page-lc-scaling">
   <div class="topbar">
     <div class="topbar-left">
       <div class="page-title">Scaling — Scripts</div>
@@ -957,13 +1020,11 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 
   </div>
 </div>
-
-<!-- ═══ SCALING — ADSETS ═══ -->
-<div class="page" id="page-adsets">
+<div class="page" id="page-lc-adsets">
   <div class="topbar">
     <div class="topbar-left">
       <div class="page-title">Scaling — Adsets</div>
-      <div class="page-sub">Current live adsets · US Market · As of 9 Jun 2025</div>
+      <div class="page-sub">Current live adsets · US Market · As of 30 Jun 2026</div>
     </div>
     <div style="display:flex;gap:8px;">
       <span class="pill pill-val" title="CMS Status">CMS: Testing PGC</span>
@@ -1025,11 +1086,11 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
       <div class="market-block" style="border-color:rgba(154,96,16,0.25);">
         <div class="market-head" style="background:var(--warn-soft);">
           <div class="market-title" style="color:var(--warn);">Production ROAS</div>
-          <span class="pill pill-val">Planning — not started</span>
+          <span class="pill pill-val">Live — Scaling</span>
         </div>
         <div class="kv-list">
           <div class="kv-row"><div class="kv-key">DRR Target</div><div class="kv-val">$1,000</div></div>
-          <div class="kv-row"><div class="kv-key">Expected start</div><div class="kv-val muted">Mid June — once CPI holds on Production CPS</div></div>
+          <div class="kv-row"><div class="kv-key">Expected start</div><div class="kv-val muted">Running alongside CPS since Jun 9</div></div>
           <div class="kv-row"><div class="kv-key">Basis</div><div class="kv-val muted">CPI of CPS only</div></div>
         </div>
       </div>
@@ -1038,37 +1099,127 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
     <div class="alert-card" style="margin-top:12px; background: var(--eu-soft); border-color: rgba(26,95,168,0.18);">
       <div class="alert-dot" style="background:var(--eu);"></div>
       <div class="alert-text">
-        <b>Scaling objective — $100k by July end.</b> Target ~$2k DRR. Currently at $1k DRR across 2 live adsets ($500 each). Gap closes via Production ROAS activation mid-June + further adset expansion.
+        <b>Scaling objective — $100k by July end.</b> Both CPS ($500 DRR) and ROAS adsets active since Jun 9. July plan: Why Me 1 hr Prod CPS ($500) + ROAS ($1,000) pending in-app construct.
       </div>
     </div>
 
   </div>
 </div>
-
-<!-- ═══ SCALING — ADSETS PERFORMANCE ═══ -->
-<div class="page" id="page-adsets-perf">
+<div class="page" id="page-lc-adsets-perf">
   <div class="topbar">
     <div class="topbar-left">
       <div class="page-title">Scaling — Adsets Performance</div>
-      <div class="page-sub">Live performance data · To be updated</div>
+      <div class="page-sub">D3 cohort data · Jun 9–24, 2026 · USA Meta Android</div>
     </div>
-    <span class="pill pill-val">Data pending</span>
+    <span class="pill pill-live">Live data</span>
   </div>
   <div class="content">
-    <div class="prose-card" style="border-style:dashed;">
-      <p style="color:var(--text3);font-style:italic;">Performance data for live scaling adsets to be added here. Will include CPS, ROAS, daily spend, and retention metrics once shared.</p>
+
+    <!-- ADSET INFO CARDS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+      <div class="cam-section">
+        <div class="cam-section-head"><div class="cam-section-title">Production CPS &nbsp;<span class="script-tag st-eu">CPS</span></div></div>
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val">Why Me — EU Variant (36 min)</div></div>
+          <div class="kv-row"><div class="kv-key">Launched</div><div class="kv-val muted">05 Jun 2026</div></div>
+          <div class="kv-row"><div class="kv-key">Buying</div><div class="kv-val">Scaling — CPS</div></div>
+          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val muted">GenAI Cinematic Motion · Default Canvas</div></div>
+          <div class="kv-row"><div class="kv-key">CPI target</div><div class="kv-val">&#8804; $12</div></div>
+        </div>
+      </div>
+      <div class="cam-section">
+        <div class="cam-section-head"><div class="cam-section-title">Production ROAS &nbsp;<span class="script-tag st-us">ROAS</span></div></div>
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val">Why Me — EU Variant (36 min)</div></div>
+          <div class="kv-row"><div class="kv-key">Launched</div><div class="kv-val muted">09 Jun 2026</div></div>
+          <div class="kv-row"><div class="kv-key">Buying</div><div class="kv-val">Scaling — ROAS</div></div>
+          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val muted">GenAI Cinematic Motion · Default Canvas</div></div>
+          <div class="kv-row"><div class="kv-key">CPI target</div><div class="kv-val">&#8804; $25</div></div>
+        </div>
+      </div>
     </div>
+
+    <!-- CONTROLS ROW -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+
+      <!-- LEFT: granularity + type filter -->
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="ctrl-label">View</span>
+          <div class="seg-group" id="seg-gran">
+            <button class="seg-btn seg-active" onclick="setGran('daily',this)">Daily</button>
+            <button class="seg-btn" onclick="setGran('weekly',this)">Weekly</button>
+            <button class="seg-btn" onclick="setGran('monthly',this)">Monthly</button>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="ctrl-label">Type</span>
+          <div class="seg-group" id="seg-type">
+            <button class="seg-btn seg-active" onclick="setType('all',this)">All</button>
+            <button class="seg-btn" onclick="setType('CPS',this)">CPS</button>
+            <button class="seg-btn" onclick="setType('ROAS',this)">ROAS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: date range picker -->
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="ctrl-label">Range</span>
+        <div class="seg-group" id="seg-range">
+          <button class="seg-btn seg-active" onclick="setRange('all',this)">All</button>
+          <button class="seg-btn" onclick="setRange('7d',this)">Last 7d</button>
+          <button class="seg-btn" onclick="setRange('14d',this)">Last 14d</button>
+        </div>
+        <span class="ctrl-label" style="margin-left:8px;">From</span>
+        <input type="date" id="dt-from" class="dt-input" value="2026-06-09" onchange="applyFilters()">
+        <span class="ctrl-label">To</span>
+        <input type="date" id="dt-to" class="dt-input" value="2026-06-24" onchange="applyFilters()">
+      </div>
+    </div>
+
+    <!-- COLOUR KEY -->
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px;flex-wrap:wrap;">
+      <span class="ctrl-label">Key</span>
+      <span style="font-family:var(--mono);font-size:9px;color:var(--good);">&#9632; Good</span>
+      <span style="font-family:var(--mono);font-size:9px;color:var(--warn);">&#9632; Mid</span>
+      <span style="font-family:var(--mono);font-size:9px;color:var(--red);">&#9632; Below target</span>
+      <span style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-left:4px;">Recovery% &#8805;6% good · Conv% &#8805;7% good / &#8805;3% mid</span>
+    </div>
+
+    <!-- TABLE WRAPPER -->
+    <div class="perf-wrap">
+      <table class="perf-table" id="perf-adset-table">
+        <thead>
+          <tr>
+            <th id="th-date">Date</th>
+            <th id="th-type">Type</th>
+            <th class="num">Installs</th>
+            <th class="num">CPI ($)</th>
+            <th class="num">Spend ($)</th>
+            <th class="num">Listen% D3</th>
+            <th class="num">LDAU% D3</th>
+            <th class="num">Activ% D3</th>
+            <th class="num">Conv% D3</th>
+            <th class="num">Recovery% D3</th>
+            <th class="num">ARPU D3</th>
+            <th class="num">ARPPU D3</th>
+            <th class="num">Playtime D3</th>
+          </tr>
+        </thead>
+        <tbody id="perf-tbody"></tbody>
+      </table>
+    </div>
+    <div id="perf-empty" style="display:none;padding:24px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--text3);">No data matches the selected filters.</div>
+
   </div>
 </div>
-
-<!-- ═══ IN-APP CONSTRUCT ═══ -->
-<div class="page" id="page-inapp">
+<div class="page" id="page-lc-inapp">
   <div class="topbar">
     <div class="topbar-left">
       <div class="page-title">In-App Construct</div>
       <div class="page-sub">Show metadata · Motions · Stills · Lockpoint · Deeplinks</div>
     </div>
-    <span class="pill pill-info">As of 9 Jun 2025</span>
+    <span class="pill pill-info">As of 30 Jun 2026</span>
   </div>
   <div class="content">
 
@@ -1193,14 +1344,14 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
     <div class="subsec">Motions</div>
     <div class="inapp-grid" style="margin-bottom:16px;">
       <div class="inapp-item">
-        <div class="inapp-label">Status</div>
-        <div class="inapp-val">None live</div>
-        <div class="inapp-status is-none">Not started</div>
+        <div class="inapp-label">1 hr · 5 Episodes</div>
+        <div class="inapp-val">By 2 Jul</div>
+        <div class="inapp-status is-progress">In progress</div>
       </div>
       <div class="inapp-item">
-        <div class="inapp-label">Timeline</div>
-        <div class="inapp-val">TBD</div>
-        <div class="inapp-sub">No production date set</div>
+        <div class="inapp-label">Method</div>
+        <div class="inapp-val muted">Comm Tool</div>
+        <div class="inapp-sub">+ Agency prospected</div>
       </div>
     </div>
 
@@ -1209,8 +1360,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
     <div class="inapp-grid" style="margin-bottom:8px;">
       <div class="inapp-item">
         <div class="inapp-label">Live as of 9 Jun</div>
-        <div class="inapp-val">~Ep 220</div>
-        <div class="inapp-sub">Old audio · 50 hrs effort</div>
+        <div class="inapp-val">Ep 206</div>
+        <div class="inapp-sub">Updated with new audio</div>
         <div class="inapp-status is-progress">Partial</div>
       </div>
       <div class="inapp-item">
@@ -1265,17 +1416,721 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 
   </div>
 </div>
-
-</main>
+<!-- ═══ TEP PAGES ═══ -->
+<div class="page" id="page-tep-show">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Show Overview</div>
+      <div class="page-sub">Basics · In-App · Scaling</div>
+    </div>
+    <span class="pill pill-info">As of 24 Jun 2026</span>
+  </div>
+  <div class="content">
+    <div class="g4" style="margin-bottom:14px;">
+      <div class="stat-card"><div class="stat-label">Episodes</div><div class="stat-val">910</div><div class="stat-sub">Eps 1–910</div></div>
+      <div class="stat-card"><div class="stat-label">Total Length</div><div class="stat-val">122.8 hrs</div><div class="stat-sub">~8 min avg per ep</div></div>
+      <div class="stat-card"><div class="stat-label">Free Content</div><div class="stat-val">1.6 hrs</div><div class="stat-sub">Locks at Ep 28 · Post DL Ep 11</div></div>
+      <div class="stat-card"><div class="stat-label">Show Type</div><div class="stat-val">PGC</div><div class="stat-sub">Werewolf romance</div></div>
+    </div>
+    <div class="g2" style="margin-bottom:14px;">
+      <div class="cam-section">
+        <div class="cam-section-head"><div class="cam-section-title">Show Details</div></div>
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">CMS Status</div><div class="kv-val"><span class="inapp-status is-live" style="display:inline-block;margin:0;">PPV</span></div></div>
+          <div class="kv-row"><div class="kv-key">Show ID (6-digit)</div><div class="kv-val muted" style="font-family:var(--mono);">489089</div></div>
+          <div class="kv-row"><div class="kv-key">Episode count</div><div class="kv-val">910</div></div>
+          <div class="kv-row"><div class="kv-key">Lockpoint</div><div class="kv-val">Ep 28</div></div>
+          <div class="kv-row"><div class="kv-key">Script DL</div><div class="kv-val muted">Ep 11</div></div>
+          <div class="kv-row"><div class="kv-key">In-App Motions</div><div class="kv-val muted">None</div></div>
+          <div class="kv-row"><div class="kv-key">In-App Stills</div><div class="kv-val muted">Thumbnail only</div></div>
+          <div class="kv-row"><div class="kv-key">CMS Link</div><div class="kv-val"><a class="ext-link" href="https://cms.pocketfm.com/shows/audiobooks?tab=published&id=5b43c895b961d1fc4336f319e44dc35d444dbacb" target="_blank" rel="noopener">CMS ↗</a></div></div>
+        </div>
+      </div>
+      <div class="cam-section">
+        <div class="cam-section-head"><div class="cam-section-title">Deeplinks</div></div>
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">Ep 11 — TAP v2 DL</div><div class="kv-val" style="font-family:var(--mono);font-size:9px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=8c94997cc2ca47f5b18190446ba9e7f6">pocketfm://open · 8c949…</a></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-tep-scaling">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Scaling — Scripts</div>
+      <div class="page-sub">TAP v2 script · CPI &amp; production base</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="subsec" style="margin-top:0;">TAP v2 Script</div>
+    <div class="cam-section" style="margin-bottom:14px;">
+      <div class="cam-section-head"><div class="cam-section-title">The Alpha Princess v2</div></div>
+      <div class="kv-list">
+        <div class="kv-row"><div class="kv-key">Duration</div><div class="kv-val">56–57 min</div></div>
+        <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val"><a class="ext-link" href="https://docs.google.com/document/d/1k4gO68kVP76U13gIBFGOn45s19LbZaVsD0HFLFuN7XA/edit?tab=t.0" target="_blank" rel="noopener">View ↗</a></div></div>
+        <div class="kv-row"><div class="kv-key">Deeplink</div><div class="kv-val muted">Ep 11</div></div>
+        <div class="kv-row"><div class="kv-key">CPI Link</div><div class="kv-val"><a class="ext-link" href="https://fb.me/22oQbaQaSMOVgWH" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
+        <div class="kv-row"><div class="kv-key">CPS Link</div><div class="kv-val"><a class="ext-link" href="https://fb.me/25vMPdg9Lxg6XB1" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
+        <div class="kv-row"><div class="kv-key">Production Base</div><div class="kv-val"><a class="ext-link" href="https://fb.me/29rGLRVACNe5Kka" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
+        <div class="kv-row"><div class="kv-key">Expts by POD</div><div class="kv-val"><a class="ext-link" href="https://fb.me/1RxaiyI3qTjmyH0" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
+        <div class="kv-row"><div class="kv-key">Canvas</div><div class="kv-val muted">Finalized</div></div>
+      </div>
+    </div>
+    <div class="subsec">CPI Openings Sheet</div>
+    <div class="cam-section">
+      <div class="cam-section-head"><div class="cam-section-title">Script Cracking Reference</div></div>
+      <div class="kv-list">
+        <div class="kv-row"><div class="kv-key">CPI Openings</div><div class="kv-val"><a class="ext-link" href="https://docs.google.com/spreadsheets/d/19UEoePbYZY_UE0FJ1SfZ-3PwmprAZAO9dwDmBNEvT9I/edit?gid=579379105#gid=579379105" target="_blank" rel="noopener">Sheet ↗</a></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-tep-adsets">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Scaling — Adsets</div>
+      <div class="page-sub">Current live adsets · US Market · As of 24 Jun 2026</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <span class="pill pill-info">CMS: PPV</span>
+      <span class="pill pill-live">1 adset live</span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="market-block" style="max-width:580px;">
+      <div class="market-head">
+        <div class="market-title mt-eu">TAP v2 — Production CPS</div>
+        <span class="pill pill-live">Already on</span>
+      </div>
+      <div class="kv-list">
+        <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val">The Alpha Princess v2 (56–57 min)</div></div>
+        <div class="kv-row"><div class="kv-key">DRR</div><div class="kv-val">$500</div></div>
+        <div class="kv-row"><div class="kv-key">Status</div><div class="kv-val">Already on</div></div>
+        <div class="kv-row"><div class="kv-key">Account</div><div class="kv-val muted">English-2</div></div>
+        <div class="kv-row"><div class="kv-key">Deeplink</div><div class="kv-val muted">Ep 11</div></div>
+        <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val muted">GenAI Cinematic Motion</div></div>
+        <div class="kv-row" style="padding-top:7px;padding-bottom:7px;">
+          <div class="kv-key">Adset name</div>
+          <div class="kv-val muted" style="font-size:9px;font-family:var(--mono);text-align:right;line-height:1.5;">USA · Meta · Android · Scaling-CPS · Werewolf · The Eclipse Princess · 489089 · GenAI-Cinematic-Motion · The Alpha Princess V2 · 18 Jun 2026</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <div class="market-block" style="border-color:rgba(154,96,16,0.25);max-width:580px;">
+        <div class="market-head" style="background:var(--warn-soft);">
+          <div class="market-title" style="color:var(--warn);">Why Me 1 hr Prod CPS</div>
+          <span class="pill pill-val">Awaiting In-App</span>
+        </div>
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">DRR Target</div><div class="kv-val">$500</div></div>
+          <div class="kv-row"><div class="kv-key">Status</div><div class="kv-val muted">Awaiting In-App construct</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:8px;">
+      <div class="market-block" style="border-color:rgba(154,96,16,0.25);max-width:580px;">
+        <div class="market-head" style="background:var(--warn-soft);">
+          <div class="market-title" style="color:var(--warn);">Why Me 1 hr Prod ROAS</div>
+          <span class="pill pill-val">Awaiting In-App</span>
+        </div>
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">DRR Target</div><div class="kv-val">$1,000</div></div>
+          <div class="kv-row"><div class="kv-key">Status</div><div class="kv-val muted">Awaiting In-App construct</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-tep-adsets-perf">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Scaling — Adsets Performance</div>
+      <div class="page-sub">D3 cohort data · TEP · USA Meta Android</div>
+    </div>
+    <span class="pill pill-val">Data pending</span>
+  </div>
+  <div class="content">
+    <div class="prose-card" style="border-style:dashed;">
+      <p style="color:var(--text3);font-style:italic;">Performance data for TEP adsets to be added here once available.</p>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-tep-inapp">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">In-App Construct</div>
+      <div class="page-sub">Stills · Motions · Locking · Deeplinks</div>
+    </div>
+    <span class="pill pill-info">As of 24 Jun 2026</span>
+  </div>
+  <div class="content">
+    <div class="subsec" style="margin-top:0;">In-App Status</div>
+    <div class="inapp-grid" style="margin-bottom:16px;">
+      <div class="inapp-item"><div class="inapp-label">In-App Stills</div><div class="inapp-val">—</div><div class="inapp-status is-none">None</div></div>
+      <div class="inapp-item"><div class="inapp-label">In-App Motions</div><div class="inapp-val">—</div><div class="inapp-status is-none">None</div></div>
+      <div class="inapp-item"><div class="inapp-label">Stills Status</div><div class="inapp-val muted">—</div><div class="inapp-sub">As of 30 Jun</div></div>
+      <div class="inapp-item"><div class="inapp-label">Motion Status</div><div class="inapp-val muted">—</div><div class="inapp-sub">As of 30 Jun</div></div>
+    </div>
+    <div class="alert-card">
+      <div class="alert-dot"></div>
+      <div class="alert-text"><b>Note:</b> 5 hrs underway via Commissioning Tool + Agency being prospected for motion production.</div>
+    </div>
+    <div class="subsec" style="margin-top:20px;">Deeplinks</div>
+    <div class="cam-section">
+      <div class="cam-section-head"><div class="cam-section-title">Episode Deeplinks</div></div>
+      <div class="market-body">
+        <div class="kv-row">
+          <div class="kv-key">Ep 11 — TAP v2 Script DL</div>
+          <div class="kv-val" style="font-family:var(--mono);font-size:10px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=8c94997cc2ca47f5b18190446ba9e7f6">pocketfm://open · 8c949…</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="subsec" style="margin-top:16px;">Episodes &amp; Classification</div>
+    <div class="inapp-grid">
+      <div class="inapp-item"><div class="inapp-label">Total Episodes</div><div class="inapp-val">910</div><div class="inapp-sub">122.8 hrs total</div></div>
+      <div class="inapp-item"><div class="inapp-label">Lockpoint</div><div class="inapp-val">Ep 28</div><div class="inapp-sub">1.6 hrs free</div></div>
+      <div class="inapp-item"><div class="inapp-label">Show Type</div><div class="inapp-val">PGC</div></div>
+      <div class="inapp-item"><div class="inapp-label">CMS Status</div><div class="inapp-val">PPV</div><div class="inapp-status is-live">Active</div></div>
+    </div>
+  </div>
+</div>
+<!-- ═══ ATC PAGES ═══ -->
+<div class="page" id="page-atc-show">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Show Overview</div>
+      <div class="page-sub">Basics · In-App · Scaling</div>
+    </div>
+    <span class="pill pill-info">As of 30 Jun 2026</span>
+  </div>
+  <div class="content">
+    <div class="g4" style="margin-bottom:14px;">
+      <div class="stat-card"><div class="stat-label">Episodes</div><div class="stat-val">531</div><div class="stat-sub">Eps 1–531</div></div>
+      <div class="stat-card"><div class="stat-label">Total Length</div><div class="stat-val">87.6 hrs</div></div>
+      <div class="stat-card"><div class="stat-label">Free Content</div><div class="stat-val">2 hrs</div><div class="stat-sub">Locks at Ep 23 · Post DL Ep 11</div></div>
+      <div class="stat-card"><div class="stat-label">Show Type</div><div class="stat-val">UGC</div><div class="stat-sub">Werewolf romance</div></div>
+    </div>
+    <div class="g2" style="margin-bottom:14px;">
+      <div class="cam-section">
+        <div class="cam-section-head"><div class="cam-section-title">Show Details</div></div>
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">CMS Status</div><div class="kv-val"><span class="inapp-status is-none" style="display:inline-block;margin:0;">BAD</span></div></div>
+          <div class="kv-row"><div class="kv-key">Show ID (6-digit)</div><div class="kv-val muted" style="font-family:var(--mono);">580407</div></div>
+          <div class="kv-row"><div class="kv-key">Episode count</div><div class="kv-val">531</div></div>
+          <div class="kv-row"><div class="kv-key">Lockpoint</div><div class="kv-val">Ep 23</div></div>
+          <div class="kv-row"><div class="kv-key">Script DL</div><div class="kv-val muted">Ep 11</div></div>
+          <div class="kv-row"><div class="kv-key">In-App Motions</div><div class="kv-val muted">None</div></div>
+          <div class="kv-row"><div class="kv-key">In-App Stills</div><div class="kv-val muted">Thumbnail only</div></div>
+          <div class="kv-row"><div class="kv-key">CMS Link</div><div class="kv-val"><a class="ext-link" href="https://cms.pocketfm.com/shows/audiobooks?tab=published&id=acf9c6b1e2bb441185ad0e34df8bd09f33d9278a" target="_blank" rel="noopener">CMS ↗</a></div></div>
+        </div>
+      </div>
+      <div class="cam-section">
+        <div class="cam-section-head"><div class="cam-section-title">Deeplinks</div></div>
+        <div class="kv-list">
+          <div class="kv-row"><div class="kv-key">Ep 11 — Elara's Fate DL</div><div class="kv-val" style="font-family:var(--mono);font-size:9px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=b2d6eff1feb849c1ad9a5f52ba62cb81">pocketfm://open · b2d6e…</a></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-atc-scaling">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Scaling — Scripts</div>
+      <div class="page-sub">Elara's Fate script · CPI &amp; production</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="subsec" style="margin-top:0;">Elara's Fate Script</div>
+    <div class="cam-section" style="margin-bottom:14px;">
+      <div class="cam-section-head"><div class="cam-section-title">Elara's Fate</div></div>
+      <div class="kv-list">
+        <div class="kv-row"><div class="kv-key">Duration</div><div class="kv-val">48–49 min</div></div>
+        <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val muted">—</div></div>
+        <div class="kv-row"><div class="kv-key">Deeplink</div><div class="kv-val" style="font-family:var(--mono);font-size:9px;text-align:right;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=b2d6eff1feb849c1ad9a5f52ba62cb81">pocketfm://open · b2d6e…</a></div></div>
+        <div class="kv-row"><div class="kv-key">CPI Link</div><div class="kv-val"><a class="ext-link" href="https://fb.me/2LfBODNgCdrxGvc" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
+        <div class="kv-row"><div class="kv-key">CPS Link</div><div class="kv-val"><a class="ext-link" href="https://fb.me/1RkbkCPpc9Y2W3r" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
+        <div class="kv-row"><div class="kv-key">Canvas</div><div class="kv-val muted">The Empress · Ashes to Crown</div></div>
+        <div class="kv-row"><div class="kv-key">CPI Ads (Empress)</div><div class="kv-val"><a class="ext-link" href="https://fb.me/24ZZfdsrnJcM2li" target="_blank" rel="noopener">FB Ads · JUN26586 ↗</a></div></div>
+        <div class="kv-row"><div class="kv-key">Production Base</div><div class="kv-val muted">Under Production</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-atc-adsets">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Scaling — Adsets</div>
+      <div class="page-sub">Current adsets · US Market · As of 30 Jun 2026</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <span class="pill pill-val">CMS: BAD</span>
+      <span class="pill pill-val">Closed</span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="market-block" style="max-width:580px;">
+      <div class="market-head">
+        <div class="market-title" style="color:var(--text2);">ATC EF — Canvas CPS Test</div>
+        <span class="pill pill-val">Closed</span>
+      </div>
+      <div class="kv-list">
+        <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val">Elara's Fate (48–49 min)</div></div>
+        <div class="kv-row"><div class="kv-key">DRR</div><div class="kv-val muted">$500 (Closed)</div></div>
+        <div class="kv-row"><div class="kv-key">Account</div><div class="kv-val muted">Testing-7</div></div>
+        <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val muted">GenAI</div></div>
+        <div class="kv-row" style="padding-top:7px;padding-bottom:7px;">
+          <div class="kv-key">Adset name</div>
+          <div class="kv-val muted" style="font-size:9px;font-family:var(--mono);text-align:right;line-height:1.5;">USA · Meta · Android · Testing-CPS · Werewolf · Ashes to Crown · 580407 · GenAI · ATC-Elara's Fate · 16 Jun 2026</div>
+        </div>
+      </div>
+    </div>
+    <div class="alert-card" style="margin-top:12px; background:var(--warn-soft); border-color:rgba(154,96,16,0.25);">
+      <div class="alert-dot" style="background:var(--warn);"></div>
+      <div class="alert-text"><b>Canvas CPS test closed.</b> Production under way (Empress canvas). Next step: launch Production CPS once in-app construct is ready.</div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-atc-adsets-perf">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">Scaling — Adsets Performance</div>
+      <div class="page-sub">D3 cohort data · ATC · USA Meta Android</div>
+    </div>
+    <span class="pill pill-val">Data pending</span>
+  </div>
+  <div class="content">
+    <div class="prose-card" style="border-style:dashed;">
+      <p style="color:var(--text3);font-style:italic;">Performance data for ATC adsets to be added here once available.</p>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-atc-inapp">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-title">In-App Construct</div>
+      <div class="page-sub">Stills · Motions · Locking · Deeplinks</div>
+    </div>
+    <span class="pill pill-info">As of 30 Jun 2026</span>
+  </div>
+  <div class="content">
+    <div class="subsec" style="margin-top:0;">In-App Status</div>
+    <div class="inapp-grid" style="margin-bottom:16px;">
+      <div class="inapp-item"><div class="inapp-label">In-App Stills</div><div class="inapp-val">—</div><div class="inapp-status is-none">None</div></div>
+      <div class="inapp-item"><div class="inapp-label">In-App Motions</div><div class="inapp-val">—</div><div class="inapp-status is-none">None</div></div>
+      <div class="inapp-item"><div class="inapp-label">Stills (15 Jun)</div><div class="inapp-val muted">—</div></div>
+      <div class="inapp-item"><div class="inapp-label">Stills (30 Jun)</div><div class="inapp-val muted">—</div></div>
+    </div>
+    <div class="alert-card">
+      <div class="alert-dot"></div>
+      <div class="alert-text"><b>Note:</b> 5 hrs to be initiated via Commissioning Tool.</div>
+    </div>
+    <div class="subsec" style="margin-top:20px;">Deeplinks</div>
+    <div class="cam-section">
+      <div class="cam-section-head"><div class="cam-section-title">Episode Deeplinks</div></div>
+      <div class="market-body">
+        <div class="kv-row">
+          <div class="kv-key">Ep 11 — Elara's Fate DL</div>
+          <div class="kv-val" style="font-family:var(--mono);font-size:10px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=b2d6eff1feb849c1ad9a5f52ba62cb81">pocketfm://open · b2d6e…</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="subsec" style="margin-top:16px;">Episodes &amp; Classification</div>
+    <div class="inapp-grid">
+      <div class="inapp-item"><div class="inapp-label">Total Episodes</div><div class="inapp-val">531</div><div class="inapp-sub">87.6 hrs total</div></div>
+      <div class="inapp-item"><div class="inapp-label">Lockpoint</div><div class="inapp-val">Ep 23</div><div class="inapp-sub">2 hrs free</div></div>
+      <div class="inapp-item"><div class="inapp-label">Show Type</div><div class="inapp-val">UGC</div></div>
+      <div class="inapp-item"><div class="inapp-label">CMS Status</div><div class="inapp-val">BAD</div><div class="inapp-status is-none">Needs fix</div></div>
+    </div>
+  </div>
 </div>
 
+</main>
+</div><!-- end body-row -->
+</div><!-- end layout -->
+
 <script>
+
 function nav(id, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   el.classList.add('active');
+  if (id === 'adsets-perf') { renderPerfTable(); }
 }
+
+// ── ADSET PERFORMANCE DATA ──
+var PERF_DATA = [
+  {"date":"2026-06-24","type":"ROAS","installs":43.38,"cpi":21.02,"spend":911.73,"listen":0.8068,"ldau":0.5763,"activ":0.2766,"conv":0.0,"recovery":0.0,"arpu":0.0,"arppu":null,"playtime":0.619},
+  {"date":"2026-06-24","type":"CPS","installs":38.77,"cpi":10.38,"spend":402.28,"listen":0.8770,"ldau":0.7738,"activ":0.3353,"conv":0.0774,"recovery":0.0198,"arpu":0.2053,"arppu":2.653,"playtime":1.174},
+  {"date":"2026-06-23","type":"ROAS","installs":49.69,"cpi":18.76,"spend":932.17,"listen":0.9057,"ldau":0.8453,"activ":0.5836,"conv":0.0604,"recovery":0.0364,"arpu":0.6833,"arppu":11.32,"playtime":2.305},
+  {"date":"2026-06-23","type":"CPS","installs":36.0,"cpi":12.55,"spend":451.68,"listen":0.9444,"ldau":0.8333,"activ":0.3889,"conv":0.0556,"recovery":0.0044,"arpu":0.055,"arppu":0.99,"playtime":1.526},
+  {"date":"2026-06-22","type":"CPS","installs":28.64,"cpi":15.91,"spend":455.61,"listen":0.8381,"ldau":0.7683,"activ":0.3143,"conv":0.0,"recovery":0.0,"arpu":0.0,"arppu":null,"playtime":1.004},
+  {"date":"2026-06-22","type":"ROAS","installs":26.33,"cpi":38.33,"spend":1009.43,"listen":0.8354,"ldau":0.7975,"activ":0.3797,"conv":0.1139,"recovery":0.0138,"arpu":0.5297,"arppu":4.65,"playtime":2.914},
+  {"date":"2026-06-21","type":"CPS","installs":49.73,"cpi":10.92,"spend":543.12,"listen":0.8848,"ldau":0.7440,"activ":0.3217,"conv":0.0201,"recovery":0.0313,"arpu":0.3414,"arppu":16.98,"playtime":1.312},
+  {"date":"2026-06-21","type":"ROAS","installs":30.88,"cpi":33.50,"spend":1034.37,"listen":0.9393,"ldau":0.8421,"activ":0.4534,"conv":0.0648,"recovery":0.1014,"arpu":3.3956,"arppu":52.42,"playtime":2.539},
+  {"date":"2026-06-20","type":"CPS","installs":36.0,"cpi":14.51,"spend":522.51,"listen":1.0,"ldau":0.8889,"activ":0.4722,"conv":0.0278,"recovery":0.0019,"arpu":0.0275,"arppu":0.99,"playtime":2.867},
+  {"date":"2026-06-20","type":"ROAS","installs":26.83,"cpi":31.79,"spend":852.69,"listen":0.9319,"ldau":0.7828,"activ":0.4846,"conv":0.0746,"recovery":0.0128,"arpu":0.4082,"arppu":5.475,"playtime":2.249},
+  {"date":"2026-06-19","type":"CPS","installs":51.64,"cpi":9.18,"spend":474.03,"listen":0.7553,"ldau":0.7166,"activ":0.3873,"conv":0.0387,"recovery":0.0042,"arpu":0.0383,"arppu":0.99,"playtime":1.074},
+  {"date":"2026-06-19","type":"ROAS","installs":35.33,"cpi":29.88,"spend":1055.65,"listen":0.9057,"ldau":0.7642,"activ":0.4245,"conv":0.0,"recovery":0.0,"arpu":0.0,"arppu":null,"playtime":1.518},
+  {"date":"2026-06-18","type":"CPS","installs":42.0,"cpi":12.31,"spend":517.15,"listen":0.8333,"ldau":0.7619,"activ":0.4286,"conv":0.0714,"recovery":0.1138,"arpu":1.4017,"arppu":19.62,"playtime":1.978},
+  {"date":"2026-06-18","type":"ROAS","installs":26.95,"cpi":32.33,"spend":871.36,"listen":0.9276,"ldau":0.8163,"activ":0.2968,"conv":0.0371,"recovery":0.0011,"arpu":0.0367,"arppu":0.99,"playtime":0.828},
+  {"date":"2026-06-17","type":"ROAS","installs":43.75,"cpi":21.30,"spend":932.05,"listen":0.8,"ldau":0.7086,"activ":0.3657,"conv":0.0229,"recovery":0.0761,"arpu":1.6222,"arppu":70.97,"playtime":2.057},
+  {"date":"2026-06-17","type":"CPS","installs":30.79,"cpi":14.50,"spend":446.53,"listen":0.8444,"ldau":0.7470,"activ":0.4222,"conv":0.0325,"recovery":0.0358,"arpu":0.5187,"arppu":15.97,"playtime":1.666},
+  {"date":"2026-06-16","type":"ROAS","installs":57.67,"cpi":19.60,"spend":1130.58,"listen":0.8843,"ldau":0.7109,"activ":0.2948,"conv":0.0347,"recovery":0.0035,"arpu":0.0688,"arppu":1.985,"playtime":1.016},
+  {"date":"2026-06-16","type":"CPS","installs":39.69,"cpi":13.35,"spend":529.81,"listen":0.8566,"ldau":0.7307,"activ":0.3275,"conv":0.0504,"recovery":0.0037,"arpu":0.0499,"arppu":0.99,"playtime":1.163},
+  {"date":"2026-06-15","type":"CPS","installs":41.87,"cpi":12.02,"spend":503.37,"listen":0.9076,"ldau":0.7404,"activ":0.5494,"conv":0.0478,"recovery":0.0337,"arpu":0.4056,"arppu":8.49,"playtime":2.208},
+  {"date":"2026-06-15","type":"ROAS","installs":34.7,"cpi":30.70,"spend":1065.35,"listen":0.8934,"ldau":0.7205,"activ":0.2882,"conv":0.1441,"recovery":0.0516,"arpu":1.583,"arppu":10.99,"playtime":2.559},
+  {"date":"2026-06-14","type":"ROAS","installs":37.33,"cpi":27.57,"spend":1029.11,"listen":0.8571,"ldau":0.75,"activ":0.3214,"conv":0.0536,"recovery":0.0398,"arpu":1.0969,"arppu":20.48,"playtime":2.052},
+  {"date":"2026-06-14","type":"CPS","installs":32.75,"cpi":14.85,"spend":486.30,"listen":0.8244,"ldau":0.4580,"activ":0.2137,"conv":0.0305,"recovery":0.0020,"arpu":0.0302,"arppu":0.99,"playtime":1.436},
+  {"date":"2026-06-13","type":"ROAS","installs":47.66,"cpi":20.59,"spend":981.40,"listen":0.8602,"ldau":0.7134,"activ":0.4196,"conv":0.0839,"recovery":0.0814,"arpu":1.6766,"arppu":19.98,"playtime":3.206},
+  {"date":"2026-06-13","type":"CPS","installs":41.57,"cpi":11.16,"spend":463.76,"listen":0.8419,"ldau":0.6976,"activ":0.3368,"conv":0.0241,"recovery":0.0021,"arpu":0.0238,"arppu":0.99,"playtime":1.323},
+  {"date":"2026-06-12","type":"CPS","installs":36.84,"cpi":10.96,"spend":403.79,"listen":0.8415,"ldau":0.7872,"activ":0.4615,"conv":0.0543,"recovery":0.0049,"arpu":0.0537,"arppu":0.99,"playtime":1.395},
+  {"date":"2026-06-12","type":"ROAS","installs":33.43,"cpi":30.11,"spend":1006.57,"listen":0.8375,"ldau":0.6879,"activ":0.4486,"conv":0.0299,"recovery":0.00098,"arpu":0.0296,"arppu":0.99,"playtime":1.166},
+  {"date":"2026-06-11","type":"CPS","installs":38.0,"cpi":11.75,"spend":446.37,"listen":0.7368,"ldau":0.6053,"activ":0.3947,"conv":0.0263,"recovery":0.0022,"arpu":0.0261,"arppu":0.99,"playtime":1.389},
+  {"date":"2026-06-11","type":"ROAS","installs":36.0,"cpi":30.15,"spend":1085.50,"listen":0.8333,"ldau":0.75,"activ":0.3333,"conv":0.0556,"recovery":0.0257,"arpu":0.7764,"arppu":13.975,"playtime":1.767},
+  {"date":"2026-06-10","type":"ROAS","installs":51.57,"cpi":22.32,"spend":1150.85,"listen":0.8338,"ldau":0.7562,"activ":0.4848,"conv":0.0388,"recovery":0.0278,"arpu":0.6199,"arppu":15.985,"playtime":1.900},
+  {"date":"2026-06-10","type":"CPS","installs":49.13,"cpi":10.02,"spend":492.00,"listen":0.8550,"ldau":0.7532,"activ":0.5089,"conv":0.1221,"recovery":0.0790,"arpu":0.7912,"arppu":6.478,"playtime":3.245},
+  {"date":"2026-06-09","type":"CPS","installs":44.18,"cpi":10.82,"spend":478.13,"listen":0.8602,"ldau":0.6112,"activ":0.2943,"conv":0.0226,"recovery":0.0062,"arpu":0.0675,"arppu":2.98,"playtime":1.463}
+];
+
+var perfState = { gran: 'daily', type: 'all', range: 'all' };
+
+function setGran(g, btn) {
+  perfState.gran = g;
+  document.querySelectorAll('#seg-gran .seg-btn').forEach(function(b){ b.classList.remove('seg-active'); });
+  btn.classList.add('seg-active');
+  // toggle type column header
+  document.getElementById('th-date').textContent = g === 'daily' ? 'Date' : g === 'weekly' ? 'Week' : 'Month';
+  document.getElementById('th-type').style.display = perfState.type === 'all' ? '' : 'none';
+  renderPerfTable();
+}
+
+function setType(t, btn) {
+  perfState.type = t;
+  document.querySelectorAll('#seg-type .seg-btn').forEach(function(b){ b.classList.remove('seg-active'); });
+  btn.classList.add('seg-active');
+  renderPerfTable();
+}
+
+function setRange(r, btn) {
+  perfState.range = r;
+  document.querySelectorAll('#seg-range .seg-btn').forEach(function(b){ b.classList.remove('seg-active'); });
+  btn.classList.add('seg-active');
+  var today = new Date('2026-06-24');
+  if (r === '7d') {
+    var from = new Date(today); from.setDate(from.getDate() - 6);
+    document.getElementById('dt-from').value = from.toISOString().slice(0,10);
+    document.getElementById('dt-to').value = '2026-06-24';
+  } else if (r === '14d') {
+    var from = new Date(today); from.setDate(from.getDate() - 13);
+    document.getElementById('dt-from').value = from.toISOString().slice(0,10);
+    document.getElementById('dt-to').value = '2026-06-24';
+  } else {
+    document.getElementById('dt-from').value = '2026-06-09';
+    document.getElementById('dt-to').value = '2026-06-24';
+  }
+  renderPerfTable();
+}
+
+function applyFilters() {
+  // Clear range preset active state when manually picking dates
+  document.querySelectorAll('#seg-range .seg-btn').forEach(function(b){ b.classList.remove('seg-active'); });
+  renderPerfTable();
+}
+
+function getWeekKey(dateStr) {
+  var d = new Date(dateStr);
+  // ISO week: find Monday
+  var day = d.getDay() || 7;
+  var mon = new Date(d); mon.setDate(d.getDate() - day + 1);
+  return mon.toISOString().slice(0,10);
+}
+
+function weekLabel(isoMonday) {
+  var d = new Date(isoMonday);
+  var sun = new Date(d); sun.setDate(d.getDate() + 6);
+  var fmt = function(dt) { return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][dt.getMonth()] + ' ' + dt.getDate(); };
+  return fmt(d) + '–' + fmt(sun);
+}
+
+function getMonthKey(dateStr) { return dateStr.slice(0,7); }
+function monthLabel(ym) {
+  var d = new Date(ym + '-01');
+  return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()] + ' ' + d.getFullYear();
+}
+
+function avgPct(vals) {
+  var valid = vals.filter(function(v){ return v !== null && v !== undefined; });
+  if (!valid.length) return null;
+  return valid.reduce(function(a,b){ return a+b; }, 0) / valid.length;
+}
+
+function weightedCPI(rows) {
+  var totalSpend = rows.reduce(function(a,r){ return a + (r.spend||0); }, 0);
+  var totalInstalls = rows.reduce(function(a,r){ return a + (r.installs||0); }, 0);
+  return totalInstalls > 0 ? totalSpend / totalInstalls : null;
+}
+
+function weightedARPU(rows) {
+  var totalInstalls = rows.reduce(function(a,r){ return a + (r.installs||0); }, 0);
+  var totalRev = rows.reduce(function(a,r){ return a + (r.arpu||0) * (r.installs||0); }, 0);
+  return totalInstalls > 0 ? totalRev / totalInstalls : null;
+}
+
+function weightedARPPU(rows) {
+  var valid = rows.filter(function(r){ return r.arppu !== null; });
+  if (!valid.length) return null;
+  var totalConv = valid.reduce(function(a,r){ return a + (r.conv||0) * (r.installs||0); }, 0);
+  var totalRev = valid.reduce(function(a,r){ return a + (r.arppu||0) * (r.conv||0) * (r.installs||0); }, 0);
+  return totalConv > 0 ? totalRev / totalConv : null;
+}
+
+function rollup(rows) {
+  var totalInstalls = rows.reduce(function(a,r){ return a + (r.installs||0); }, 0);
+  return {
+    installs: totalInstalls,
+    cpi: weightedCPI(rows),
+    spend: rows.reduce(function(a,r){ return a + (r.spend||0); }, 0),
+    listen: avgPct(rows.map(function(r){ return r.listen; })),
+    ldau: avgPct(rows.map(function(r){ return r.ldau; })),
+    activ: avgPct(rows.map(function(r){ return r.activ; })),
+    conv: avgPct(rows.map(function(r){ return r.conv; })),
+    recovery: avgPct(rows.map(function(r){ return r.recovery; })),
+    arpu: weightedARPU(rows),
+    arppu: weightedARPPU(rows),
+    playtime: avgPct(rows.map(function(r){ return r.playtime; })),
+    types: [...new Set(rows.map(function(r){ return r.type; }))].sort()
+  };
+}
+
+function clsCPI(v, type) {
+  if (v === null) return '';
+  if (type === 'CPS' || type === 'all') { return v < 12 ? 'metric-good' : v < 16 ? 'metric-mid' : 'metric-bad'; }
+  return v < 25 ? 'metric-good' : v < 35 ? 'metric-mid' : 'metric-bad';
+}
+function clsConv(v) { return v === null ? '' : v >= 0.07 ? 'metric-good' : v >= 0.03 ? 'metric-mid' : 'metric-bad'; }
+function clsRec(v)  { return v === null ? '' : v >= 0.06 ? 'metric-good' : v >= 0.03 ? 'metric-mid' : 'metric-bad'; }
+function clsListen(v) { return v === null ? '' : v >= 0.90 ? 'metric-good' : v >= 0.80 ? 'metric-mid' : 'metric-bad'; }
+
+function fmtPct(v) { return v === null ? '&#8212;' : (v*100).toFixed(1) + '%'; }
+function fmtNum(v, dec, pfx) { return v === null ? '&#8212;' : (pfx||'') + v.toFixed(dec||2); }
+function wrap(cls, txt) { return cls ? '<span class="' + cls + '">' + txt + '</span>' : txt; }
+
+function renderRow(label, typeLabel, r, showType) {
+  var cpiCls = clsCPI(r.cpi, typeLabel);
+  var typeTag = typeLabel === 'CPS' ? '<span class="script-tag st-eu">CPS</span>' :
+                typeLabel === 'ROAS' ? '<span class="script-tag st-us">ROAS</span>' :
+                typeLabel.split('+').map(function(t){ return t.trim() === 'CPS' ? '<span class="script-tag st-eu">CPS</span>' : '<span class="script-tag st-us">ROAS</span>'; }).join(' ');
+  return '<tr>' +
+    '<td style="font-family:var(--mono);font-size:11px;color:var(--text2);white-space:nowrap;">' + label + '</td>' +
+    (showType ? '<td>' + typeTag + '</td>' : '<td style="display:none"></td>') +
+    '<td class="num">' + (r.installs ? Math.round(r.installs) : '&#8212;') + '</td>' +
+    '<td class="num">' + wrap(cpiCls, fmtNum(r.cpi, 2, '$')) + '</td>' +
+    '<td class="num" style="color:var(--text2);">' + (r.spend ? '$' + Math.round(r.spend).toLocaleString() : '&#8212;') + '</td>' +
+    '<td class="num">' + wrap(clsListen(r.listen), fmtPct(r.listen)) + '</td>' +
+    '<td class="num">' + fmtPct(r.ldau) + '</td>' +
+    '<td class="num">' + fmtPct(r.activ) + '</td>' +
+    '<td class="num">' + wrap(clsConv(r.conv), fmtPct(r.conv)) + '</td>' +
+    '<td class="num">' + wrap(clsRec(r.recovery), fmtPct(r.recovery)) + '</td>' +
+    '<td class="num">' + fmtNum(r.arpu, 3, '$') + '</td>' +
+    '<td class="num">' + (r.arppu !== null ? '$' + r.arppu.toFixed(2) : '&#8212;') + '</td>' +
+    '<td class="num">' + (r.playtime !== null ? r.playtime.toFixed(1) + 'h' : '&#8212;') + '</td>' +
+    '</tr>';
+}
+
+function renderPerfTable() {
+  var fromVal = document.getElementById('dt-from').value;
+  var toVal   = document.getElementById('dt-to').value;
+  var gran = perfState.gran;
+  var typeFilter = perfState.type;
+
+  // Filter by date + type
+  var filtered = PERF_DATA.filter(function(r) {
+    var inRange = r.date >= fromVal && r.date <= toVal;
+    var inType = typeFilter === 'all' || r.type === typeFilter;
+    return inRange && inType;
+  });
+
+  var tbody = document.getElementById('perf-tbody');
+  var empty = document.getElementById('perf-empty');
+
+  if (!filtered.length) {
+    tbody.innerHTML = '';
+    empty.style.display = '';
+    return;
+  }
+  empty.style.display = 'none';
+
+  var html = '';
+  var showType = typeFilter === 'all';
+
+  if (gran === 'daily') {
+    // Group by date, then type within date
+    var byDate = {};
+    filtered.forEach(function(r) {
+      if (!byDate[r.date]) byDate[r.date] = [];
+      byDate[r.date].push(r);
+    });
+    var dates = Object.keys(byDate).sort().reverse();
+    dates.forEach(function(d) {
+      var dayRows = byDate[d];
+      // Sort ROAS before CPS within day
+      dayRows.sort(function(a,b){ return b.type.localeCompare(a.type); });
+      var label = new Date(d + 'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+      if (showType) {
+        dayRows.forEach(function(r) {
+          html += renderRow(label, r.type, r, true);
+        });
+      } else {
+        // Single type filter — already filtered
+        dayRows.forEach(function(r) {
+          html += renderRow(label, r.type, r, false);
+        });
+      }
+    });
+
+  } else if (gran === 'weekly') {
+    var byWeekType = {};
+    filtered.forEach(function(r) {
+      var wk = getWeekKey(r.date);
+      var key = showType ? wk + '|' + r.type : wk;
+      if (!byWeekType[key]) byWeekType[key] = [];
+      byWeekType[key].push(r);
+    });
+    var keys = Object.keys(byWeekType).sort().reverse();
+    keys.forEach(function(key) {
+      var rows = byWeekType[key];
+      var parts = key.split('|');
+      var wk = parts[0];
+      var typeLabel = parts[1] || (rows[0] ? rows[0].type : '');
+      if (!showType) typeLabel = rows[0] ? rows[0].type : typeFilter;
+      var rolled = rollup(rows);
+      html += renderRow(weekLabel(wk), typeLabel, rolled, showType);
+    });
+
+  } else { // monthly
+    var byMonType = {};
+    filtered.forEach(function(r) {
+      var mo = getMonthKey(r.date);
+      var key = showType ? mo + '|' + r.type : mo;
+      if (!byMonType[key]) byMonType[key] = [];
+      byMonType[key].push(r);
+    });
+    var keys = Object.keys(byMonType).sort().reverse();
+    keys.forEach(function(key) {
+      var rows = byMonType[key];
+      var parts = key.split('|');
+      var mo = parts[0];
+      var typeLabel = parts[1] || (rows[0] ? rows[0].type : '');
+      if (!showType) typeLabel = rows[0] ? rows[0].type : typeFilter;
+      var rolled = rollup(rows);
+      html += renderRow(monthLabel(mo), typeLabel, rolled, showType);
+    });
+  }
+
+  tbody.innerHTML = html;
+}
+
+// Init on page load — wait for DOM
+document.addEventListener('DOMContentLoaded', function() {
+  renderPerfTable();
+});
+
+// ── SHOW TAB SWITCHING ──
+var currentShow = 'lc';
+var showNavMap = {
+  lc:  ['show','tropes','inapp','scaling','adsets','adsets-perf'],
+  tep: ['show','scaling','adsets','adsets-perf','inapp'],
+  atc: ['show','scaling','adsets','adsets-perf','inapp']
+};
+
+var showMeta = {
+  lc:  { cms: 'https://cms.pocketfm.com/shows/audiobooks?tab=published&id=f123714ce8bfcb28cc12eec4d53a70453fe8e640' },
+  tep: { cms: 'https://cms.pocketfm.com/shows/audiobooks?tab=published&id=5b43c895b961d1fc4336f319e44dc35d444dbacb' },
+  atc: { cms: 'https://cms.pocketfm.com/shows/audiobooks?tab=published&id=acf9c6b1e2bb441185ad0e34df8bd09f33d9278a' }
+};
+
+function switchShow(show) {
+  currentShow = show;
+  // update horizontal tab active state
+  document.querySelectorAll('.show-tab-h').forEach(function(t) {
+    t.classList.toggle('tab-active', t.getAttribute('data-show') === show);
+  });
+  // update CMS link in top chrome
+  var cmsEl = document.getElementById('chrome-cms-link');
+  if (cmsEl && showMeta[show]) { cmsEl.href = showMeta[show].cms; }
+  // rebuild sidebar nav
+  buildNav(show);
+  // activate first page of that show
+  var firstPage = showNavMap[show][0];
+  var firstNavEl = document.querySelector('[data-show-nav="' + show + '-' + firstPage + '"]');
+  navShow(show + '-' + firstPage, firstNavEl);
+}
+
+function buildNav(show) {
+  var nav = document.getElementById('sidebar-nav');
+  nav.innerHTML = '';
+
+  var navDefs = {
+    lc: [
+      { label: 'Show',    items: [['show','Overview'],['tropes','Trope Matrix']] },
+      { label: 'In-App',  items: [['inapp','In-App Construct']] },
+      { label: 'Scaling', items: [['scaling','Scripts'],['adsets','Adsets'],['adsets-perf','Adsets Performance']] }
+    ],
+    tep: [
+      { label: 'Show',    items: [['show','Overview']] },
+      { label: 'In-App',  items: [['inapp','In-App Construct']] },
+      { label: 'Scaling', items: [['scaling','Scripts'],['adsets','Adsets'],['adsets-perf','Adsets Performance']] }
+    ],
+    atc: [
+      { label: 'Show',    items: [['show','Overview']] },
+      { label: 'In-App',  items: [['inapp','In-App Construct']] },
+      { label: 'Scaling', items: [['scaling','Scripts'],['adsets','Adsets'],['adsets-perf','Adsets Performance']] }
+    ]
+  };
+
+  navDefs[show].forEach(function(group) {
+    var g = document.createElement('div');
+    g.className = 'nav-group';
+    var lbl = document.createElement('div');
+    lbl.className = 'nav-label';
+    lbl.textContent = group.label;
+    g.appendChild(lbl);
+    group.items.forEach(function(item) {
+      var pageKey = item[0], label = item[1];
+      var fullId = show + '-' + pageKey;
+      var el = document.createElement('div');
+      el.className = 'nav-item';
+      el.setAttribute('data-show-nav', fullId);
+      el.innerHTML = '<span class="nav-dot"></span>' + label;
+      el.onclick = (function(fid, e) { return function() { navShow(fid, e); }; })(fullId, el);
+      g.appendChild(el);
+    });
+    nav.appendChild(g);
+  });
+}
+
+function navShow(fullId, el) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+  var pageEl = document.getElementById('page-' + fullId);
+  if (pageEl) pageEl.classList.add('active');
+  if (el) el.classList.add('active');
+  if (fullId.indexOf('adsets-perf') !== -1 && fullId.indexOf('lc') !== -1) { renderPerfTable(); }
+}
+
+// Override old nav() to still work for LC if called directly
+function nav(id, el) { navShow('lc-' + id, el); }
+
+// Init
+document.addEventListener('DOMContentLoaded', function() {
+  buildNav('lc');
+  switchShow('lc');
+});
+
 </script>
 </body>
 </html>
