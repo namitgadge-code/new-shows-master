@@ -88,15 +88,16 @@ body {
 .show-tab-h.tab-active .tab-badge { color: var(--accent); background: var(--accent2); }
 .chrome-divider { width: 1px; background: var(--border); margin: 10px 12px; flex-shrink: 0; }
 .chrome-cms-link {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.04em;
-  color: var(--eu); text-decoration: none;
-  padding: 3px 8px; border-radius: 4px;
-  border: 1px solid rgba(26,95,168,0.2);
-  background: var(--eu-soft); margin-left: auto; flex-shrink: 0;
-  display: inline-flex; align-items: center;
-  transition: background 0.1s;
+  font-family: var(--font); font-size: 12px; font-weight: 600;
+  color: #fff; text-decoration: none;
+  padding: 7px 16px; border-radius: 6px;
+  background: var(--eu); flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+  transition: background 0.15s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
 }
-.chrome-cms-link:hover { background: rgba(26,95,168,0.14); }
+.chrome-cms-link:hover { background: #1450a0; }
 .brand {
   padding: 20px 16px 16px;
   border-bottom: 1px solid var(--border);
@@ -117,11 +118,33 @@ body {
 }
 .brand-link:hover { background: rgba(26,95,168,0.14); }
 .ext-link {
-  color: var(--eu); text-decoration: none;
-  border-bottom: 1px solid rgba(26,95,168,0.25);
-  transition: border-color 0.1s;
+  display: inline-flex; align-items: center; gap: 3px;
+  color: #fff; text-decoration: none;
+  background: var(--eu); 
+  padding: 2px 8px 2px 7px;
+  border-radius: 4px;
+  font-size: 10px; font-weight: 600;
+  font-family: var(--mono); letter-spacing: 0.02em;
+  border: none;
+  transition: background 0.12s, transform 0.08s;
+  white-space: nowrap;
+  vertical-align: middle;
 }
-.ext-link:hover { border-color: var(--eu); }
+.ext-link:hover { background: #1450a0; transform: translateY(-1px); }
+.ext-link:active { transform: translateY(0); }
+
+/* Ad links in tables */
+.ad-link {
+  display: inline-flex; align-items: center; gap: 3px;
+  color: #fff; text-decoration: none;
+  background: var(--eu);
+  padding: 2px 7px; border-radius: 4px;
+  font-size: 9px; font-weight: 600;
+  font-family: var(--mono);
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+.ad-link:hover { background: #1450a0; }
 .nav-group { padding: 14px 0 6px; }
 .nav-label {
   font-family: var(--mono);
@@ -521,6 +544,38 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 
+
+/* ── DEEPLINK CHIP ── */
+.dl-chip {
+  display: inline-flex; align-items: center; gap: 0;
+  border: 1px solid rgba(26,95,168,0.22);
+  border-radius: 6px; overflow: hidden;
+  font-family: var(--mono); font-size: 10px;
+  text-decoration: none; vertical-align: middle;
+  transition: box-shadow 0.12s;
+  max-width: 100%;
+}
+.dl-chip:hover { box-shadow: 0 2px 8px rgba(26,95,168,0.18); }
+.dl-chip-label {
+  background: var(--eu); color: #fff;
+  padding: 3px 8px; font-weight: 600;
+  font-size: 9px; letter-spacing: 0.04em;
+  white-space: nowrap; flex-shrink: 0;
+}
+.dl-chip-id {
+  background: var(--eu-soft); color: var(--eu);
+  padding: 3px 9px; font-size: 9px;
+  letter-spacing: 0.02em; white-space: nowrap;
+  max-width: 140px; overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dl-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 12px; border-bottom: 1px solid var(--border);
+}
+.dl-row:last-child { border-bottom: none; }
+.dl-row-label { font-family: var(--mono); font-size: 9px; color: #555; text-transform: uppercase; letter-spacing: 0.06em; }
+.dl-row-sub { font-size: 10px; color: #333; margin-top: 1px; }
 </style>
 </head>
 <body>
@@ -542,7 +597,10 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
         Ashes to Crown <span class="tab-badge">580407</span>
       </button>
     </div>
-    <a class="chrome-cms-link" id="chrome-cms-link" href="https://cms.pocketfm.com/shows/audiobooks?tab=published&id=f123714ce8bfcb28cc12eec4d53a70453fe8e640" target="_blank" rel="noopener">↗ CMS</a>
+    <div style="display:flex;align-items:center;gap:7px;margin-left:auto;">
+      <a href="https://docs.google.com/spreadsheets/d/1Agiia3fiX_xhst_w-Gij9TBajIKeQRkGXj1nGlcUD2U/edit?usp=sharing" target="_blank" rel="noopener" style="font-family:var(--font);font-size:12px;font-weight:600;color:#fff;text-decoration:none;padding:7px 16px;border-radius:6px;background:#1a6e3c;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.18);" onmouseover="this.style.background='#155930'" onmouseout="this.style.background='#1a6e3c'"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Master Sheet</a>
+      <a class="chrome-cms-link" id="chrome-cms-link" href="https://cms.pocketfm.com/shows/audiobooks?tab=published&id=f123714ce8bfcb28cc12eec4d53a70453fe8e640" target="_blank" rel="noopener" onmouseover="this.style.background='#1450a0'" onmouseout="this.style.background='#1a5fa8'"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>CMS</a>
+    </div>
   </div>
 </div>
 
@@ -1047,7 +1105,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
           <div class="kv-row"><div class="kv-key">Tag</div><div class="kv-val muted">English 2</div></div>
           <div class="kv-row"><div class="kv-key">DRR</div><div class="kv-val">$500</div></div>
           <div class="kv-row"><div class="kv-key">Deeplink</div><div class="kv-val">Ep 1</div></div>
-          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val">GenAI Cinematic Motion · Full AI promo</div></div>
+          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val">GenAI Cinematic Motion · Bright Fantasy</div></div>
           <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val"><a class="ext-link" href="https://docs.google.com/document/d/18Gel4f6M2BS7FLYgJQIa6ZWlqIxgt25a/edit" target="_blank" rel="noopener">View ↗</a></div></div>
           <div class="kv-row"><div class="kv-key">Scaling CPS Ad</div><div class="kv-val"><a class="ext-link" href="https://fb.me/25E4kfLLrrPPJYa" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
           <div class="kv-row"><div class="kv-key">Experiments</div><div class="kv-val muted">2× 3sec · 5× 15sec visual cuts</div></div>
@@ -1070,8 +1128,12 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
           <div class="kv-row"><div class="kv-key">Tag</div><div class="kv-val muted">Testing 7</div></div>
           <div class="kv-row"><div class="kv-key">DRR</div><div class="kv-val">$500</div></div>
           <div class="kv-row"><div class="kv-key">Deeplink</div><div class="kv-val">Ep 6</div></div>
-          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val">GenAI Cinematic Still · 1 min motion + Stills</div></div>
+          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val">GenAI Cinematic Motion · Bright Fantasy</div></div>
+          <div class="kv-row"><div class="kv-key">Canvas file</div><div class="kv-val muted" style="font-size:9px;">26JUNE_LC_WHY ME_VT_64min_MANISH</div></div>
           <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val"><a class="ext-link" href="https://docs.google.com/document/d/1LG59x60uvLIRbyI1WfIz3BxkOA4Kccyz/edit" target="_blank" rel="noopener">View ↗</a></div></div>
+          <div class="kv-row"><div class="kv-key">CPI Link</div><div class="kv-val"><a class="ext-link" href="https://fb.me/1TKkcEFacoc1BQa" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
+          <div class="kv-row"><div class="kv-key">CPS Link</div><div class="kv-val"><a class="ext-link" href="https://fb.me/33h4Wa4bbU0C1J8" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
+          <div class="kv-row"><div class="kv-key">Prod Base</div><div class="kv-val"><a class="ext-link" href="https://fb.me/22JdA7C14XeJJY9" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
           <div class="kv-row"><div class="kv-key">Scaling CPS Ad</div><div class="kv-val"><a class="ext-link" href="https://fb.me/27vqitkFGGCAbGx" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
           <div class="kv-row" style="padding-top:7px;padding-bottom:7px;">
             <div class="kv-key">Adset name</div>
@@ -1123,7 +1185,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
           <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val">Why Me — EU Variant (36 min)</div></div>
           <div class="kv-row"><div class="kv-key">Launched</div><div class="kv-val muted">05 Jun 2026</div></div>
           <div class="kv-row"><div class="kv-key">Buying</div><div class="kv-val">Scaling — CPS</div></div>
-          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val muted">GenAI Cinematic Motion · Default Canvas</div></div>
+          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val muted">GenAI Cinematic Motion · Bright Fantasy</div></div>
           <div class="kv-row"><div class="kv-key">CPI target</div><div class="kv-val">&#8804; $12</div></div>
         </div>
       </div>
@@ -1133,7 +1195,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
           <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val">Why Me — EU Variant (36 min)</div></div>
           <div class="kv-row"><div class="kv-key">Launched</div><div class="kv-val muted">09 Jun 2026</div></div>
           <div class="kv-row"><div class="kv-key">Buying</div><div class="kv-val">Scaling — ROAS</div></div>
-          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val muted">GenAI Cinematic Motion · Default Canvas</div></div>
+          <div class="kv-row"><div class="kv-key">Creative</div><div class="kv-val muted">GenAI Cinematic Motion · Bright Fantasy</div></div>
           <div class="kv-row"><div class="kv-key">CPI target</div><div class="kv-val">&#8804; $25</div></div>
         </div>
       </div>
@@ -1237,6 +1299,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
           <div class="kv-row"><div class="kv-key">Source</div><div class="kv-val">China Literature</div></div>
           <div class="kv-row"><div class="kv-key">Source category</div><div class="kv-val muted">Reserved</div></div>
           <div class="kv-row"><div class="kv-key">Source link</div><div class="kv-val"><a class="ext-link" href="https://www.webnovel.com/book/the-lunar-curse-a-second-chance-with-alpha-draven_32060442900418405" target="_blank" rel="noopener">Webnovel ↗</a></div></div>
+          <div class="kv-row"><div class="kv-key">LC Main Sheet</div><div class="kv-val"><a class="ext-link" href="https://docs.google.com/spreadsheets/d/1I9m7MSBfeCVAyyB_jZyCDt8_56JH0ZhwfFH4o2-LrDo/edit?usp=sharing" target="_blank" rel="noopener">Sheet ↗</a></div></div>
         </div>
       </div>
 
@@ -1324,18 +1387,36 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
     <div class="subsec">Critical Episode Deeplinks</div>
     <div class="cam-section" style="margin-bottom:16px;">
       <div class="cam-section-head"><div class="cam-section-title">Episode Deeplinks</div></div>
-      <div class="market-body">
-        <div class="kv-row">
-          <div class="kv-key">Ep 1 — Show start<br><span style="color:var(--eu);font-size:8px;">EU 36 min deeplink</span></div>
-          <div class="kv-val" style="font-family:var(--mono);font-size:10px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=b72222003b8e4f378c7682cd4bf948c7">pocketfm://open · b7222…</a></div>
+      <div style="padding:4px 0;">
+        <div class="dl-row">
+          <div>
+            <div class="dl-row-label">Ep 1 — Show start</div>
+            <div class="dl-row-sub">EU 36 min · Script deeplink</div>
+          </div>
+          <a class="dl-chip" href="pocketfm://open?entity_type=story&entity_id=b72222003b8e4f378c7682cd4bf948c7">
+            <span class="dl-chip-label">Ep 1</span>
+            <span class="dl-chip-id">b7222…003b8e4f</span>
+          </a>
         </div>
-        <div class="kv-row">
-          <div class="kv-key">Ep 6 — US Writing entry<br><span style="color:var(--us);font-size:8px;">US 60 min deeplink</span></div>
-          <div class="kv-val" style="font-family:var(--mono);font-size:10px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=c1f643e65efc4bad9c633e533a042805">pocketfm://open · c1f64…</a></div>
+        <div class="dl-row">
+          <div>
+            <div class="dl-row-label">Ep 6 — US Writing entry</div>
+            <div class="dl-row-sub">US 60 min · Script deeplink</div>
+          </div>
+          <a class="dl-chip" href="pocketfm://open?entity_type=story&entity_id=c1f643e65efc4bad9c633e533a042805">
+            <span class="dl-chip-label">Ep 6</span>
+            <span class="dl-chip-id">c1f64…4bad9c63</span>
+          </a>
         </div>
-        <div class="kv-row">
-          <div class="kv-key">Ep 12 — Lockpoint<br><span style="color:var(--accent);font-size:8px;">PPV activates after this</span></div>
-          <div class="kv-val" style="font-family:var(--mono);font-size:10px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=5afe931f315a4bbdabd37e2d6f15278e">pocketfm://open · 5afe9…</a></div>
+        <div class="dl-row">
+          <div>
+            <div class="dl-row-label">Ep 12 — Lockpoint</div>
+            <div class="dl-row-sub">PPV activates after this episode</div>
+          </div>
+          <a class="dl-chip" href="pocketfm://open?entity_type=story&entity_id=5afe931f315a4bbdabd37e2d6f15278e">
+            <span class="dl-chip-label">Ep 12</span>
+            <span class="dl-chip-id">5afe9…3a4bbdab</span>
+          </a>
         </div>
       </div>
     </div>
@@ -1580,9 +1661,15 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
     <div class="cam-section">
       <div class="cam-section-head"><div class="cam-section-title">Episode Deeplinks</div></div>
       <div class="market-body">
-        <div class="kv-row">
-          <div class="kv-key">Ep 11 — TAP v2 Script DL</div>
-          <div class="kv-val" style="font-family:var(--mono);font-size:10px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=8c94997cc2ca47f5b18190446ba9e7f6">pocketfm://open · 8c949…</a></div>
+        <div class="dl-row">
+          <div>
+            <div class="dl-row-label">Ep 11 — TAP v2 Script DL</div>
+            <div class="dl-row-sub">Post DL · Lockpoint Ep 28</div>
+          </div>
+          <a class="dl-chip" href="pocketfm://open?entity_type=story&entity_id=8c94997cc2ca47f5b18190446ba9e7f6">
+            <span class="dl-chip-label">Ep 11</span>
+            <span class="dl-chip-id">8c949…c2ca47f5</span>
+          </a>
         </div>
       </div>
     </div>
@@ -1628,7 +1715,16 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
       <div class="cam-section">
         <div class="cam-section-head"><div class="cam-section-title">Deeplinks</div></div>
         <div class="kv-list">
-          <div class="kv-row"><div class="kv-key">Ep 11 — Elara's Fate DL</div><div class="kv-val" style="font-family:var(--mono);font-size:9px;text-align:right;word-break:break-all;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=b2d6eff1feb849c1ad9a5f52ba62cb81">pocketfm://open · b2d6e…</a></div></div>
+          <div class="dl-row">
+            <div>
+              <div class="dl-row-label">Ep 11 — Elara's Fate DL</div>
+              <div class="dl-row-sub">Script deeplink · Post DL</div>
+            </div>
+            <a class="dl-chip" href="pocketfm://open?entity_type=story&entity_id=b2d6eff1feb849c1ad9a5f52ba62cb81">
+              <span class="dl-chip-label">Ep 11</span>
+              <span class="dl-chip-id">b2d6e…feb849c1</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -1648,7 +1744,15 @@ hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
       <div class="kv-list">
         <div class="kv-row"><div class="kv-key">Duration</div><div class="kv-val">48–49 min</div></div>
         <div class="kv-row"><div class="kv-key">Script</div><div class="kv-val muted">—</div></div>
-        <div class="kv-row"><div class="kv-key">Deeplink</div><div class="kv-val" style="font-family:var(--mono);font-size:9px;text-align:right;"><a class="ext-link" href="pocketfm://open?entity_type=story&entity_id=b2d6eff1feb849c1ad9a5f52ba62cb81">pocketfm://open · b2d6e…</a></div></div>
+        <div class="kv-row">
+          <div class="kv-key">Deeplink</div>
+          <div class="kv-val">
+            <a class="dl-chip" href="pocketfm://open?entity_type=story&entity_id=b2d6eff1feb849c1ad9a5f52ba62cb81">
+              <span class="dl-chip-label">Ep 11</span>
+              <span class="dl-chip-id">b2d6e…feb849c1</span>
+            </a>
+          </div>
+        </div>
         <div class="kv-row"><div class="kv-key">CPI Link</div><div class="kv-val"><a class="ext-link" href="https://fb.me/2LfBODNgCdrxGvc" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
         <div class="kv-row"><div class="kv-key">CPS Link</div><div class="kv-val"><a class="ext-link" href="https://fb.me/1RkbkCPpc9Y2W3r" target="_blank" rel="noopener">FB Ads ↗</a></div></div>
         <div class="kv-row"><div class="kv-key">Canvas</div><div class="kv-val muted">The Empress · Ashes to Crown</div></div>
